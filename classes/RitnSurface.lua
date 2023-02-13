@@ -45,6 +45,7 @@ end
 -- init data surface
 function RitnSurface:new()
     if self.data[self.name] then return self end 
+    log('> '..self.object_name..':new() -> '..self.name)
 
     local exception = self.name == "nauvis"
 
@@ -62,6 +63,7 @@ end
 -- GET EXCEPTION
 function RitnSurface:getException()
     if self.data[self.name] == nil then return error(self.name .. " not init !") end 
+    log('> '..self.object_name..':getException() -> '..self.name)
     return self.data[self.name].exception
 end
 
@@ -70,6 +72,7 @@ end
 function RitnSurface:setException(value)
     if type(value) ~= "boolean" then return self end
     if self.data[self.name] == nil then return error(self.name .. " not init !") end 
+    log('> '..self.object_name..':setException() -> '..self.name)
 
     self.data[self.name].exception = value
 
@@ -81,6 +84,8 @@ end
 -- GET EXCEPTION
 function RitnSurface:getFinish()
     if self.data[self.name] == nil then return error(self.name .. " not init !") end 
+    log('> '..self.object_name..':getFinish() -> '..self.name)
+
     return self.data[self.name].exception
 end
 
@@ -88,7 +93,8 @@ end
 -- SET EXCEPTION
 function RitnSurface:setFinish(value)
     if type(value) ~= "boolean" then return self end
-    if self.data[self.name] == nil then return error(self.name .. " not init !") end 
+    if self.data[self.name] == nil then return error(self.name .. " not init !") end
+    log('> '..self.object_name..':setFinish() -> '..self.name) 
 
     self.data[self.name].finish = value
 
@@ -103,6 +109,8 @@ end
 -- GET ORIGINE
 function RitnSurface:getOrigine()
     if self.data[self.name] == nil then return error(self.name .. " not init !") end 
+    log('> '..self.object_name..':getOrigine() -> '..self.name)
+
     return self.data[self.name].origine
 end
 
@@ -111,6 +119,7 @@ end
 function RitnSurface:setOrigine(origine)
     if type(origine) ~= "string" then return self end
     if self.data[self.name] == nil then return error(self.name .. " not init !") end 
+    log('> '..self.object_name..':setOrigine() -> '..self.name)
 
     self.data[self.name].origine = origine
 
@@ -124,11 +133,13 @@ end
 
 function RitnSurface:addPlayer(LuaPlayer)
     if string.sub(self.name, 1, string.len(self.prefix_lobby)) == self.prefix_lobby then return self end
-    
+    log('> '..self.object_name..':addPlayer() -> '..self.name)
+
     self:new() 
 
     self.data[self.name].players[LuaPlayer.name] = self.data_player
     self.data[self.name].players[LuaPlayer.name].name = LuaPlayer.name
+    log('> player '.. LuaPlayer.name .. ' -> surface : ' .. self.name .. ' (add)')
 
     if self.name ~= "nauvis" then 
         self.data[self.name].map_used = flib.tableBusy(self.data[self.name].players)
@@ -143,7 +154,8 @@ end
 
 function RitnSurface:removePlayer(LuaPlayer)
     if string.sub(self.name, 1, string.len(self.prefix_lobby)) == self.prefix_lobby then return self end
-    
+    log('> '..self.object_name..':removePlayer() -> '..self.name)
+
     self:new() 
 
     if self.data[self.name].players[LuaPlayer.name] == nil then return --[[ self:updateCeaseFires() ]] end
@@ -154,6 +166,7 @@ function RitnSurface:removePlayer(LuaPlayer)
         self.data[self.name].map_used = flib.tableBusy(self.data[self.name].players)
     end
     --self:updateCeaseFires()
+    log('> player '.. LuaPlayer.name .. ' -> surface : ' .. self.name .. ' (remove)')
 
     self:update()
 
