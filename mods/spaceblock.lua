@@ -64,6 +64,7 @@ end
 
 -------------------------
 local module = { events = {} }
+module.on_chunk_generated = on_chunk_generated
 -------------------------
 module.events[defines.events.on_chunk_generated] = on_chunk_generated
 -------------------------
