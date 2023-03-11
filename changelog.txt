@@ -1,4 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.2.0
+Date: 11.03.2023
+  Minor Features:
+    - Création du fichier 'globals' charger à l'étape 'control'.
+  Changes:
+    - Mise à jour de RitnPlayer : ajout de la méthode : init()
+    - Suppression de la fonction 'on_tick_loadGame'
+---------------------------------------------------------------------------------------------------
 Version: 0.1.1
 Date: 10.03.2023
   Control:

@@ -67,9 +67,7 @@ function RitnPlayer:changeForce()
 end
 
 
-
-
-function RitnPlayer:new()
+function RitnPlayer:init()
     if self.data[self.index] ~= nil then return self end 
 
     self.data[self.index] = self.data_player
@@ -80,6 +78,16 @@ function RitnPlayer:new()
 
     self:update()
 
+    return self
+end
+
+
+
+
+function RitnPlayer:new()
+    if self.data[self.index] ~= nil then return self end 
+
+    self:init()
     self:createLobby()   
 
     return self
