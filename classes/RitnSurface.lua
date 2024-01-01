@@ -81,16 +81,16 @@ function RitnSurface:setException(value)
     return self
 end
 
--- GET EXCEPTION
+-- GET FINISH
 function RitnSurface:getFinish()
     if self.data[self.name] == nil then return error(self.name .. " not init !") end 
     log('> '..self.object_name..':getFinish() -> '..self.name)
 
-    return self.data[self.name].exception
+    return self.data[self.name].finish
 end
 
 
--- SET EXCEPTION
+-- SET FINISH
 function RitnSurface:setFinish(value)
     if type(value) ~= "boolean" then return self end
     if self.data[self.name] == nil then return error(self.name .. " not init !") end

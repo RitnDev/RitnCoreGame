@@ -12,6 +12,7 @@ local defines = {
         event = mod_name .. ".classes.RitnEvent",
         player = mod_name .. ".classes.RitnPlayer",
         surface = mod_name .. ".classes.RitnSurface",
+        force = mod_name .. ".classes.RitnForce",
         gui = mod_name .. ".classes.RitnGui",
     },
 

@@ -20,7 +20,15 @@ local function on_init_mod()
         map_used = false,
         finish = false,
     })
+    remote.call("RitnCoreGame", "init_data", "force", {
+        name = "",
+        exception = true,
+        players = {},
+        force_used = false,
+        finish = false,
+    })
     remote.call("RitnCoreGame", "init_data", "surface_player", { name = ""})
+    remote.call("RitnCoreGame", "init_data", "force_player", { name = ""})
 
     log('on_init : RitnCoreGame -> finish !')
 end

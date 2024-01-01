@@ -12,6 +12,7 @@ local seablock = require(ritnlib.defines.core.mods.seablock)
 local flib = require(ritnlib.defines.core.functions)
 ----------------------------------------------------------------
 local RitnSurface = require(ritnlib.defines.core.class.surface)
+local RitnForce = require(ritnlib.defines.core.class.force)
 ----------------------------------------------------------------
 
 
@@ -48,6 +49,12 @@ end)
 function RitnPlayer:getSurface()
     return RitnSurface(self.surface)
 end
+
+-- Override : getForce()
+function RitnPlayer:getForce()
+    return RitnForce(self.force)
+end
+
 
 function RitnPlayer:changeSurface()
     if self.data[self.index] == nil then return self end  
@@ -168,25 +175,12 @@ function RitnPlayer:createSurface()
     end
     
     LuaSurface.set_tiles(tiles)
-    local LuaForce = game.create_force(self.name)
-    LuaForce.reset()
-    LuaForce.research_queue_enabled = true
-    LuaForce.chart(self.name, {{x = -200, y = -200}, {x = 200, y = 200}})
 
+    local rForce = RitnForce:create(self.name)
+  
     --seablock options generated map
     if game.active_mods["SeaBlock"] then  
         seablock.startMap(LuaSurface)
-    end
-    
-    for k,v in pairs(game.forces) do
-        if v.name ~= "enemy" and v.name ~= "neutral" then
-          LuaForce.set_friend(v.name,true)
-          game.forces["player"].set_friend(LuaForce.name, true)
-        end
-    end
- 
-    for r_name, recipe in pairs(self.force.recipes) do
-        LuaForce.recipes[r_name].enabled = recipe.enabled
     end
 
     -- init RitnSurface

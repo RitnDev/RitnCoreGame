@@ -5,6 +5,7 @@ local LibEvent = require(ritnlib.defines.class.luaClass.event)
 ----------------------------------------------------------------
 local RitnPlayer = require(ritnlib.defines.core.class.player)
 local RitnSurface = require(ritnlib.defines.core.class.surface)
+local RitnForce = require(ritnlib.defines.core.class.force)
 ----------------------------------------------------------------
 
 
@@ -24,6 +25,12 @@ end)
 -- Override : getSurface()
 function RitnEvent:getSurface()
     return RitnSurface(self.surface)
+end
+
+
+-- Override : getForce()
+function RitnEvent:getForce()
+    return RitnForce(self.force)
 end
 
 

@@ -42,10 +42,16 @@ local function on_player_cheat_mode_enabled(e)
 end
 
 
+local function on_player_created(e)
+    if game.is_multiplayer() then remote.call("RitnCoreGame", "setMultiplayer") end
+end
+
+
 ---------------------------------------------------------------------------------------------
 local module = {events = {}}
 ---------------------------------------------------------------------------------------------
 -- Events Player
+module.events[defines.events.on_player_created] = on_player_created
 module.events[defines.events.on_player_cheat_mode_enabled] = on_player_cheat_mode_enabled
 module.events[defines.events.on_player_changed_surface] = on_player_changed_surface
 module.events[defines.events.on_player_changed_force] = on_player_changed_force
