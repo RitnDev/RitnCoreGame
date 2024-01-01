@@ -1,4 +1,4 @@
--- RitnPlayer
+-- RitnEvent
 ----------------------------------------------------------------
 local class = require(ritnlib.defines.class.core)
 local LibEvent = require(ritnlib.defines.class.luaClass.event)

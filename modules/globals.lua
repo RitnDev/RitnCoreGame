@@ -16,7 +16,9 @@ if global.core == nil then
             surfaces = 0,
             forces = 0
         },
-        start = false
+        start = false,
+        cheatModeActivated = false,
+        multiplayer = false,
     }
 end
 ---------------------------------------------------------------------------------------------
@@ -53,6 +55,26 @@ local core_interface = {
     --start
     isStart = function() return global.core.start end,
     starting = function() global.core.start = true end,
+    --cheatModeActivated
+    isCheatModeActivated = function() 
+        if global.core.cheatModeActivated == nil then
+            global.core.cheatModeActivated = false            
+        end
+        return global.core.cheatModeActivated
+    end,
+    cheatModeActivated = function() 
+        global.core.cheatModeActivated = true 
+    end,
+    --multiplayer
+    isMultiplayer = function() 
+        if global.core.multiplayer == nil then
+            global.core.multiplayer = false            
+        end
+        return global.core.multiplayer
+    end,
+    setMultiplayer = function() 
+        global.core.multiplayer = true 
+    end,
     -- spaceblock
     spaceblock = function(event) spaceblock.on_chunk_generated(event) end,
     ---- DATAS ----

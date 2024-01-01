@@ -35,10 +35,18 @@ local function on_pre_player_left_game(e)
 end
 
 
+local function on_player_cheat_mode_enabled(e)
+    remote.call("RitnCoreGame", "cheatModeActivated")
+
+    log('on_player_cheat_mode_enabled')
+end
+
+
 ---------------------------------------------------------------------------------------------
 local module = {events = {}}
 ---------------------------------------------------------------------------------------------
 -- Events Player
+module.events[defines.events.on_player_cheat_mode_enabled] = on_player_cheat_mode_enabled
 module.events[defines.events.on_player_changed_surface] = on_player_changed_surface
 module.events[defines.events.on_player_changed_force] = on_player_changed_force
 module.events[defines.events.on_pre_player_left_game] = on_pre_player_left_game
