@@ -21,6 +21,7 @@ local function on_init_mod()
         finish = false,
     })
     remote.call("RitnCoreGame", "init_data", "force", {
+        index = 0,
         name = "",
         exception = true,
         players = {},

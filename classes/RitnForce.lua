@@ -21,6 +21,7 @@ local RitnForce = class.newclass(LibForce, function(base, LuaForce)
     base.data_player = remote.call("RitnCoreGame", "get_data", "force_player")
     base.data_force = remote.call("RitnCoreGame", "get_data", "force")
     base.data_force.name = base.name
+    base.data_force.index = base.index
     --------------------------------------------------
 end)
 
