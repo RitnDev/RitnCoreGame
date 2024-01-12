@@ -42,9 +42,26 @@ local function saveMapSettings(generate_seed)
         game.map_settings.enemy_evolution.time_factor = 0
         game.map_settings.enemy_evolution.pollution_factor = 0
         map_gen_settings = game.surfaces.nauvis.map_gen_settings
-        if enemy.active == false then
+
+        -- forcage de la désactivation des enemy dans la partie
+        local force_disable = false
+        if enemy.force_disable ~= nil then 
+            force_disable = enemy.force_disable
+        end
+
+        -- si on force la désactivation de la force enemy on met à 0 la création de base
+        if force_disable then 
             map_gen_settings["autoplace_controls"]["enemy-base"].size = 0
         end
+
+        -- si la création de base est à 0, cela veut dire que les ennemies sont désactivés
+        if map_gen_settings["autoplace_controls"]["enemy-base"].size == 0 then 
+            enemy.active = false
+        else
+            enemy.active = true
+        end
+
+        remote.call('RitnCoreGame', 'set_enemy', enemy)
     end
 
 

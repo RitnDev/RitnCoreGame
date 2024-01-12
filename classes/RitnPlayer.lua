@@ -40,7 +40,6 @@ local RitnPlayer = class.newclass(LibPlayer, function(base, LuaPlayer)
     base.clear_item = true          -- option    
     --------------------------------------------------
 end)
-
 ----------------------------------------------------------------
 
 
