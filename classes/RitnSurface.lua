@@ -22,13 +22,7 @@ local RitnSurface = class.newclass(LibSurface, function(base, LuaSurface)
     base.data_surface = remote.call("RitnCoreGame", "get_data", "surface")
     base.data_surface.name = base.name
     ----
-    base.enemy_name = ritnlib.defines.core.names.prefix.enemy .. base.name
     base.prefix_lobby = ritnlib.defines.core.names.prefix.lobby
-    -- forces link to surface
-    base.forces = { "guides" }
-    if base.name == "nauvis" then 
-    table.insert(base.forces, "player") else 
-    table.insert(base.forces, base.name) end
     --------------------------------------------------
 end)
 
@@ -144,7 +138,6 @@ function RitnSurface:addPlayer(LuaPlayer)
     if self.name ~= "nauvis" then 
         self.data[self.name].map_used = flib.tableBusy(self.data[self.name].players)
     end
-    --self:updateCeaseFires()
 
     self:update()
 
@@ -158,14 +151,14 @@ function RitnSurface:removePlayer(LuaPlayer)
 
     self:new() 
 
-    if self.data[self.name].players[LuaPlayer.name] == nil then return --[[ self:updateCeaseFires() ]] end
+    if self.data[self.name].players[LuaPlayer.name] == nil then return self end
 
     self.data[self.name].players[LuaPlayer.name] = nil
 
     if self.name ~= "nauvis" then 
         self.data[self.name].map_used = flib.tableBusy(self.data[self.name].players)
     end
-    --self:updateCeaseFires()
+
     log('> player '.. LuaPlayer.name .. ' -> surface : ' .. self.name .. ' (remove)')
 
     self:update()
@@ -173,24 +166,6 @@ function RitnSurface:removePlayer(LuaPlayer)
     return self
 end
 
---[[ 
-function RitnSurface:updateCeaseFires()
-    if self.data[self.name] == nil then return error(self.name .. " not init !") end 
-    
-    local map_used = self.data[self.name].map_used
-
-    for _,force in pairs(self.forces) do
-        if game.forces[force] then
-            game.forces["enemy"].set_cease_fire(force, not map_used)
-            if game.forces[self.enemy_name] then 
-                game.forces[self.enemy_name].set_cease_fire(force, not map_used)
-            end
-        end
-    end
-  
-    return self
-end
-]]
 ----------------------------------------------------------------
 --[[ 
 function RitnSurface:getInventories() 

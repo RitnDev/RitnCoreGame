@@ -35,8 +35,7 @@ local function saveMapSettings(generate_seed)
         }
         map_settings.enemy_expansion = {enabled = map_settings_game.enemy_expansion.enabled}
     end
-    remote.call('RitnCoreGame', 'set_map_settings', map_settings)
-    local enemy = remote.call('RitnCoreGame', 'get_enemy')
+    
 
     if not map_gen_settings.seed then 
         game.map_settings.enemy_evolution.time_factor = 0
@@ -60,6 +59,7 @@ local function saveMapSettings(generate_seed)
         else
             enemy.active = true
         end
+        map_settings.enemy_evolution.enabled = enemy.active
 
         remote.call('RitnCoreGame', 'set_enemy', enemy)
     end
@@ -70,6 +70,7 @@ local function saveMapSettings(generate_seed)
         map_gen_settings.seed = math.random(1,4294967290)
     end
 
+    remote.call('RitnCoreGame', 'set_map_settings', map_settings)
     remote.call('RitnCoreGame', 'set_map_gen_settings', map_gen_settings)
 
     return map_gen_settings

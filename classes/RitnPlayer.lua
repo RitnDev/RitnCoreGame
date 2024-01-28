@@ -90,11 +90,12 @@ end
 
 
 
-function RitnPlayer:new()
+function RitnPlayer:new(teleport)
+    log('> '..self.object_name..':new() -> '..self.name)
     if self.data[self.index] ~= nil then return self end 
 
     self:init()
-    self:createLobby()   
+    self:createLobby(teleport)   
 
     return self
 end
@@ -132,8 +133,15 @@ end
 
 
 -- create surface lobby
-function RitnPlayer:createLobby()
+function RitnPlayer:createLobby(teleport)
     if script.level.level_name == "freeplay" then
+        log('> '..self.object_name..':createLobby(teleport)')
+
+        local goTeleport = true
+        if teleport ~= nil then 
+            goTeleport = teleport 
+            log('> '..self.object_name..':createLobby(teleport) -> teleport = ' .. tostring(goTeleport))
+        end
 
         local LuaSurface = game.surfaces[self.lobby_name]
         local tiles = {}
@@ -148,8 +156,10 @@ function RitnPlayer:createLobby()
         end
 
         LuaSurface.set_tiles(tiles) 
-
-        self:teleport({0,0}, self.lobby_name)
+         
+        if goTeleport then 
+            self:teleport({0,0}, self.lobby_name)
+        end
         
     end
 end
@@ -160,6 +170,7 @@ end
 
 -- Creation de la surface et force du joueur
 function RitnPlayer:createSurface()
+    log('> '..self.object_name..':createSurface() -> '..self.name)
   
     --return map_gen_settings
     local map_gen = flib.saveMapSettings()
@@ -174,8 +185,6 @@ function RitnPlayer:createSurface()
     end
     
     LuaSurface.set_tiles(tiles)
-
-    local rForce = RitnForce:create(self.name)
   
     --seablock options generated map
     if game.active_mods["SeaBlock"] then  
@@ -185,6 +194,10 @@ function RitnPlayer:createSurface()
     -- init RitnSurface
     local rSurface = RitnSurface(LuaSurface):new():setException(true):setOrigine(self.name)
     self:setOrigine(self.name)
+
+    -- init RitnForce
+    log('> '..self.object_name..':createSurface() => RitnForce:create('..self.name..')')
+    local rForce = RitnForce:create(self.name)
     
     -- Teleportation du personnage sur la nouvelle surface
     local origine = self.data[self.index].origine

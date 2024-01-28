@@ -56,6 +56,7 @@ end
 
 -- create new force
 function RitnForce:create(force_name)
+    log('> RitnForce:create() -> '..force_name)
 
     local LuaForce = game.create_force(force_name)
     LuaForce.reset()
@@ -63,7 +64,7 @@ function RitnForce:create(force_name)
     LuaForce.chart(force_name, {{x = -200, y = -200}, {x = 200, y = 200}})
     
     for _,force in pairs(game.forces) do
-        if force.name ~= "enemy" and force.name ~= "neutral" then
+        if string.sub(force.name, 1, 5) ~= "enemy" and force.name ~= "neutral" then
           LuaForce.set_friend(force.name, true)
           game.forces["player"].set_friend(LuaForce.name, true)
         end
@@ -159,9 +160,9 @@ function RitnForce:addPlayer(LuaPlayer)
     self.data[self.name].players[LuaPlayer.name].name = LuaPlayer.name
     log('> player '.. LuaPlayer.name .. ' -> force : ' .. self.name .. ' (add)')
 
-    if self.name ~= "player" then 
+    --if self.name ~= "player" then 
         self.data[self.name].force_used = flib.tableBusy(self.data[self.name].players)
-    end
+    --end
 
     self:update()
 
@@ -178,9 +179,9 @@ function RitnForce:removePlayer(LuaPlayer)
 
     self.data[self.name].players[LuaPlayer.name] = nil
 
-    if self.name ~= "player" then 
+    --if self.name ~= "player" then 
         self.data[self.name].force_used = flib.tableBusy(self.data[self.name].players)
-    end
+    --end
 
     log('> player '.. LuaPlayer.name .. ' -> force : ' .. self.name .. ' (remove)')
 
