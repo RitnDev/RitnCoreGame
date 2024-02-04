@@ -158,7 +158,7 @@ function RitnPlayer:createLobby(teleport)
         LuaSurface.set_tiles(tiles) 
          
         if goTeleport then 
-            self:teleport({0,0}, self.lobby_name)
+            self:teleportLobby()
         end
         
     end
@@ -192,7 +192,7 @@ function RitnPlayer:createSurface()
     end
 
     -- init RitnSurface
-    local rSurface = RitnSurface(LuaSurface):new():setException(true):setOrigine(self.name)
+    local rSurface = RitnSurface(LuaSurface):setAdmin(self.admin):new():setOrigine(self.name)
     self:setOrigine(self.name)
 
     -- init RitnForce
@@ -245,6 +245,11 @@ function RitnPlayer:teleport(position, surface, optDecalage, pointOrigine)
     end
 
     return self
+end
+
+
+function RitnPlayer:teleportLobby()
+    self:teleport({0,0}, self.lobby_name)
 end
 
 

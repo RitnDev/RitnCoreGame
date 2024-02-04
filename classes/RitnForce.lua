@@ -54,6 +54,8 @@ function RitnForce:new()
     return self
 end
 
+
+
 -- create new force
 function RitnForce:create(force_name)
     log('> RitnForce:create() -> '..force_name)
@@ -81,7 +83,7 @@ end
 
 
 function RitnForce.delete(force_name)
-    core_data_forces = remote.call("RitnCoreGame", "get_forces")
+    local core_data_forces = remote.call("RitnCoreGame", "get_forces")
 
     if core_data_forces[force_name] == nil then return end
     -- vidage de la liste des players de cette force
