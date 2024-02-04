@@ -1,7 +1,7 @@
 --------  INIT DATA DEFINES CORE  ----------
-ritnlib.defines.core = {}
 --------------------------------------------
 if not ritnlib then require("__RitnLib__/defines") end
+--------------------------------------------
 local name = "RitnCoreGame"
 local mod_name = "__"..name.."__"
 
