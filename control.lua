@@ -1,5 +1,4 @@
 -- Initialisation des variables globals
-if not ritnlib then require("__RitnLib__/defines") end
 require("core/defines")
 -- Activation de gvv s'il est présent
 if script.active_mods["gvv"] then require(ritnlib.defines.gvv)() end
