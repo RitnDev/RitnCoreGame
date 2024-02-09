@@ -16,8 +16,14 @@ end
 
 -- Recupération des settings de la map (nauvis)
 local function saveMapSettings(generate_seed)
+    
     local new_seed = false 
-    if generate_seed ~= nil then new_seed = generate_seed end
+    if generate_seed ~= nil then 
+        log('> functions (core) : saveMapSettings('.. tostring(generate_seed) ..')')
+        new_seed = generate_seed 
+    else
+        log('> functions (core) : saveMapSettings() -> param: generate_seed == nil')
+    end
 
     local map_settings = remote.call('RitnCoreGame', 'get_map_settings')
     local map_gen_settings = remote.call('RitnCoreGame', 'get_map_gen_settings')
@@ -64,10 +70,14 @@ local function saveMapSettings(generate_seed)
         remote.call('RitnCoreGame', 'set_enemy', enemy)
     end
 
+    local is_multiplayer = remote.call('RitnCoreGame', 'isMultiplayer')
+    log('> RitnCoreGame.is_multiplayer -> ' .. tostring(is_multiplayer))
+    log('> new_seed -> ' .. tostring(new_seed))
 
-    if new_seed == true and game.is_multiplayer() then
+    if new_seed == true and is_multiplayer == true then
         -- Change la seed
         map_gen_settings.seed = math.random(1,4294967290)
+        log('> new_seed -> ' .. map_gen_settings.seed)
     end
 
     remote.call('RitnCoreGame', 'set_map_settings', map_settings)

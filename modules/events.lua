@@ -30,6 +30,13 @@ local function on_init_mod()
     })
     remote.call("RitnCoreGame", "init_data", "surface_player", { name = ""})
     remote.call("RitnCoreGame", "init_data", "force_player", { name = ""})
+    ---------------------------------
+    local options = remote.call("RitnCoreGame", "get_options")
+    options.custom_map_settings = {
+        new_seed = false
+    }
+    remote.call("RitnCoreGame", "set_options", options)
+    ---------------------------------
 
     log('on_init : RitnCoreGame -> finish !')
 end
@@ -37,6 +44,14 @@ end
 
 local function on_configuration_changed()
     log('RitnCoreGame -> on_configuration_changed')
+    ---------------------------------
+    local options = remote.call("RitnCoreGame", "get_options")
+    if options.custom_map_settings == nil then
+        options.custom_map_settings = {
+            new_seed = false
+        }
+    end
+    remote.call("RitnCoreGame", "set_options", options)
     ---------------------------------
     global.core.cheatModeActivated = false
     global.core.multiplayer = game.is_multiplayer()

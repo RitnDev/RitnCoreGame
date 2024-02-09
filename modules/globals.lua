@@ -25,6 +25,7 @@ end
 -- REMOTE FUNCTIONS INTERFACE
 ---------------------------------------------------------------------------------------------
 local spaceblock = require(ritnlib.defines.core.mods.spaceblock)
+local flib = require(ritnlib.defines.core.functions)
 ---------------------------------------------------------------------------------------------
 local core_interface = {
     --players
@@ -55,6 +56,12 @@ local core_interface = {
     --start
     isStart = function() return global.core.start end,
     starting = function() global.core.start = true end,
+    -- save_map_settings
+    save_map_settings = function()     
+        local new_seed = global.core.options.custom_map_settings.new_seed
+        log('> global.core.options.custom_map_settings.new_seed = ' .. tostring(new_seed))
+        return flib.saveMapSettings(new_seed)
+    end,
     --cheatModeActivated
     isCheatModeActivated = function() 
         if global.core.cheatModeActivated == nil then

@@ -9,7 +9,6 @@ local LibPlayer = require(ritnlib.defines.class.luaClass.player)
 local libInventory = require(ritnlib.defines.class.ritnClass.inventory)
 ----
 local seablock = require(ritnlib.defines.core.mods.seablock)
-local flib = require(ritnlib.defines.core.functions)
 ----------------------------------------------------------------
 local RitnSurface = require(ritnlib.defines.core.class.surface)
 local RitnForce = require(ritnlib.defines.core.class.force)
@@ -173,7 +172,7 @@ function RitnPlayer:createSurface()
     log('> '..self.object_name..':createSurface() -> '..self.name)
   
     --return map_gen_settings
-    local map_gen = flib.saveMapSettings()
+    local map_gen = remote.call("RitnCoreGame", "save_map_settings")
 
     local LuaSurface = game.create_surface(self.name, map_gen)  
     local tiles = {}

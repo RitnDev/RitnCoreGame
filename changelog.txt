@@ -1,4 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.3.7
+Date: 09.02.2024
+  Adds:
+    - Ajout de la remote commande : save_map_settings
+    - Ajout d'une option inscrite dans global.core.options = { custom_map_settings = { new_seed = false} }
+  Changes:
+    - RitnPlayer utilise : local map_gen = remote.call("RitnCoreGame", "save_map_settings")
+---------------------------------------------------------------------------------------------------
 Version: 0.3.6
 Date: 04.02.2024
   Changes:
