@@ -29,12 +29,12 @@ local function saveMapSettings(generate_seed)
     local map_gen_settings = remote.call('RitnCoreGame', 'get_map_gen_settings')
     local enemy = remote.call('RitnCoreGame', "get_enemy")
 
-    if map_settings.pollution == nil then 
+    if not map_settings.pollution then 
         local map_settings_game = game.map_settings
         map_settings.pollution = { enabled = map_settings_game.pollution.enabled}
 
         map_settings.enemy_evolution = {
-            enabled = enemy.active,
+            enabled = map_settings_game.enemy_evolution.enabled,
             time_factor = map_settings_game.enemy_evolution.time_factor,
             destroy_factor = map_settings_game.enemy_evolution.destroy_factor,
             pollution_factor = map_settings_game.enemy_evolution.pollution_factor,
@@ -53,6 +53,7 @@ local function saveMapSettings(generate_seed)
         if enemy.force_disable ~= nil then 
             force_disable = enemy.force_disable
         end
+        log('> force_disable : ' .. tostring(force_disable))
 
         -- si on force la désactivation de la force enemy on met à 0 la création de base
         if force_disable then 

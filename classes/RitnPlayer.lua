@@ -58,7 +58,7 @@ function RitnPlayer:changeSurface()
     if self.data[self.index] == nil then return self end  
     self.data[self.index].surface = self.surface.name 
     self:update()
-    log('> ' .. self.object_name ..':changeSurface()')
+    log('> ' .. self.object_name ..':changeSurface() : ' .. self.surface.name)
     return self
 end
 
@@ -191,12 +191,12 @@ function RitnPlayer:createSurface()
     end
 
     -- init RitnSurface
-    local rSurface = RitnSurface(LuaSurface):setAdmin(self.admin):new():setOrigine(self.name)
+    RitnSurface(LuaSurface):setAdmin(self.admin):new():setOrigine(self.name)
     self:setOrigine(self.name)
 
     -- init RitnForce
     log('> '..self.object_name..':createSurface() => RitnForce:create('..self.name..')')
-    local rForce = RitnForce:create(self.name)
+    RitnForce:create(self.name)
     
     -- Teleportation du personnage sur la nouvelle surface
     local origine = self.data[self.index].origine
@@ -209,9 +209,6 @@ function RitnPlayer:createSurface()
         local surface = game.surfaces[origine]
         surface.daytime = 0.7
         crashSite.create_crash_site(surface, {-5,-6}, nil, util.copy(global.crashed_debris_items), util.copy(global.crashed_ship_parts))
-        if self.player.character then
-            self.player.character.destructible = false
-        end
     end
 
     return self
