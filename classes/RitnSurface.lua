@@ -21,6 +21,7 @@ local RitnSurface = class.newclass(LibSurface, function(base, LuaSurface)
     base.data = remote.call("RitnCoreGame", "get_surfaces")
     base.data_player = remote.call("RitnCoreGame", "get_data", "surface_player")
     base.data_surface = remote.call("RitnCoreGame", "get_data", "surface")
+    base.data_surface.index = base.index
     base.data_surface.name = base.name
     ----
     base.prefix_lobby = ritnlib.defines.core.names.prefix.lobby

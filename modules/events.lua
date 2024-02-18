@@ -1,10 +1,13 @@
 ---------------------------------------------------------------------------------------------
 -- EVENTS
 ---------------------------------------------------------------------------------------------
+local migration = require("core.migrations")
+---------------------------------------------------------------------------------------------
 local function on_init_mod()
     log('RitnCoreGame -> on_init')
 
     remote.call("RitnCoreGame", "init_data", "player", {
+        index = 0,
         name = "",
         origine = "",
         surface = "",
@@ -12,6 +15,7 @@ local function on_init_mod()
         connected = false
     })
     remote.call("RitnCoreGame", "init_data", "surface", {
+        index = 0,
         name = "",
         exception = true,
         origine = "",
@@ -66,6 +70,7 @@ local function on_configuration_changed()
     })
     remote.call("RitnCoreGame", "init_data", "force_player", { name = ""})
     log('on_configuration_changed : RitnCoreGame -> finish !')
+    migration.version(0,3,9)
 end
 
 ------------------------------------------------------------------------------------------------------------

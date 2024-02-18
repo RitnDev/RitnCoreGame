@@ -29,6 +29,7 @@ local RitnPlayer = class.newclass(LibPlayer, function(base, LuaPlayer)
     --------------------------------------------------
     base.data = remote.call('RitnCoreGame', 'get_players')
     base.data_player = remote.call("RitnCoreGame", "get_data", "player")
+    base.data_player.index = base.index
     base.data_player.name = base.name
     base.data_player.surface = base.surface.name
     base.data_player.force = base.force.name

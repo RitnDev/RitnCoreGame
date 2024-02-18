@@ -29,10 +29,11 @@ local function saveMapSettings(generate_seed)
     local map_gen_settings = remote.call('RitnCoreGame', 'get_map_gen_settings')
     local enemy = remote.call('RitnCoreGame', "get_enemy")
 
-    if not map_settings.pollution then 
+    if map_settings.pollution == nil then 
         local map_settings_game = game.map_settings
         map_settings.pollution = { enabled = map_settings_game.pollution.enabled}
 
+        log("> game.map_settings.enemy_evolution.time_factor = " .. map_settings_game.enemy_evolution.time_factor)
         map_settings.enemy_evolution = {
             enabled = map_settings_game.enemy_evolution.enabled,
             time_factor = map_settings_game.enemy_evolution.time_factor,
@@ -43,9 +44,7 @@ local function saveMapSettings(generate_seed)
     end
     
 
-    if not map_gen_settings.seed then 
-        game.map_settings.enemy_evolution.time_factor = 0
-        game.map_settings.enemy_evolution.pollution_factor = 0
+    if map_gen_settings.seed == nil then 
         map_gen_settings = game.surfaces.nauvis.map_gen_settings
 
         -- forcage de la désactivation des enemy dans la partie
@@ -66,7 +65,6 @@ local function saveMapSettings(generate_seed)
         else
             enemy.active = true
         end
-        map_settings.enemy_evolution.enabled = enemy.active
 
         remote.call('RitnCoreGame', 'set_enemy', enemy)
     end
