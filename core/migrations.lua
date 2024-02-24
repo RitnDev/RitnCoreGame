@@ -1,5 +1,13 @@
 -- MIGRATIONS
 ------------------------------------------------------------------------
+local updates_mod = {
+    [0] = {
+        [3] = {
+            [9] = {}
+        }
+    }
+}
+
 
 local function migration_0_3_9()
     log('> migration 0.3.9')
@@ -19,19 +27,51 @@ local function migration_0_3_9()
     end
 end 
 
+
+local function migration_0_3_10()
+    log('> migration 0.3.10')
+    local forces = remote.call("RitnCoreGame", "get_forces")
+    for _,force in pairs(forces) do 
+        if force.inventories == nil then 
+            force.inventories = {}
+        end
+        log('> force-name: ' .. force.name .. ' -> migrate !')
+    end
+    remote.call("RitnCoreGame", "set_forces", forces)
+end
+
+------------------------------------------------------------------------
+local updates_mod = {
+    [0] = {
+        [3] = {
+            [9] = migration_0_3_9,
+            [10] = {
+                migration_0_3_9,
+                migration_0_3_10
+            },
+        }
+    }
+}
+------------------------------------------------------------------------
 -- migration selon la version
 local function version(major, minor, patch)
-    if major <= 0 then 
-        if minor <= 3 then 
-            if patch <= 9 then 
-                migration_0_3_9()
-            else return
+    log('>>> MIGRATION RitnCoreGame start !')
+    if updates_mod[major] ~= nil then 
+        if updates_mod[major][minor] ~= nil then 
+            if updates_mod[major][minor][patch] ~= nil then 
+                for _, migration in pairs(updates_mod[major][minor][patch]) do 
+                    migration()
+                end
             end
-        else return
         end
-    else return
     end
+    log('>>> MIGRATION RitnCoreGame finish !')
 end
+
+
+
+
+
 
 ------------------------------------------------------------------------
 local migration = {}

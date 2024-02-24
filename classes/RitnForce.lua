@@ -1,10 +1,11 @@
 -- RitnForce
-----------------------------------------------------------------
+---------------------------------------------------------------------------------------------
 local class = require(ritnlib.defines.class.core)
 local LibForce = require(ritnlib.defines.class.luaClass.force)
-----
+local RitnInventory = require(ritnlib.defines.class.ritnClass.inventory)
+---------------------------------------------------------------------------------------------
 local flib = require(ritnlib.defines.core.functions)
-----------------------------------------------------------------
+---------------------------------------------------------------------------------------------
 
 
 
@@ -150,6 +151,46 @@ function RitnForce:setFinish(value)
     return self
 end
 
+----------------------------------------------------------------
+-- Sauvegarde l'inventaire d'un joueur dnas la data_force
+function RitnForce:saveInventory(LuaPlayer, cursor)
+    if self.data[self.name] == nil then return error(self.name .. " not init !") end 
+    log('> '..self.object_name..':saveInventory() -> '..self.name)
+
+    -- Doit-on sauvegarder ce que le joueur possède dans la main ?
+    local save_cursor = true
+    if cursor ~= nil then 
+        if type(cursor) == "boolean" then    
+            save_cursor = cursor 
+        end
+    end
+
+    RitnInventory(LuaPlayer, self.data[self.name].inventories):save(save_cursor)
+    
+    self:update()
+
+    return self
+end
+
+-- Chargement l'inventaire d'un joueur dnas la data_force
+function RitnForce:loadInventory(LuaPlayer, cursor)
+    if self.data[self.name] == nil then return error(self.name .. " not init !") end 
+    log('> '..self.object_name..':loadInventory() -> '..self.name)
+
+    -- Doit-on sauvegarder ce que le joueur possède dans la main ?
+    local save_cursor = true
+    if cursor ~= nil then 
+        if type(cursor) == "boolean" then    
+            save_cursor = cursor 
+        end
+    end
+
+    RitnInventory(LuaPlayer, self.data[self.name].inventories):load(save_cursor)
+    
+    self:update()
+
+    return self
+end
 
 ----------------------------------------------------------------
 
@@ -162,9 +203,7 @@ function RitnForce:addPlayer(LuaPlayer)
     self.data[self.name].players[LuaPlayer.name].name = LuaPlayer.name
     log('> player '.. LuaPlayer.name .. ' -> force : ' .. self.name .. ' (add)')
 
-    --if self.name ~= "player" then 
-        self.data[self.name].force_used = flib.tableBusy(self.data[self.name].players)
-    --end
+    self.data[self.name].force_used = flib.tableBusy(self.data[self.name].players)
 
     self:update()
 
@@ -180,10 +219,8 @@ function RitnForce:removePlayer(LuaPlayer)
     if self.data[self.name].players[LuaPlayer.name] == nil then return self end
 
     self.data[self.name].players[LuaPlayer.name] = nil
-
-    --if self.name ~= "player" then 
-        self.data[self.name].force_used = flib.tableBusy(self.data[self.name].players)
-    --end
+ 
+    self.data[self.name].force_used = flib.tableBusy(self.data[self.name].players)
 
     log('> player '.. LuaPlayer.name .. ' -> force : ' .. self.name .. ' (remove)')
 

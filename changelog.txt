@@ -1,4 +1,10 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.3.10
+Date: 24.02.2024
+  Adds:
+    - Ajouts d'une table inventories pour les forces (global.core.forces) pour préparer la gestion de RitnInventory.
+    - Ajouts des methodes saveInventory et loadInventory dans la classe RitnForce.
+---------------------------------------------------------------------------------------------------
 Version: 0.3.9
 Date: 18.02.2024
   Adds:

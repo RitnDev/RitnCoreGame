@@ -17,6 +17,7 @@ local function on_init_mod()
     remote.call("RitnCoreGame", "init_data", "surface", {
         index = 0,
         name = "",
+        seed = 0,   -- TODO enregistré la seed ici 
         exception = true,
         origine = "",
         players = {},
@@ -29,6 +30,7 @@ local function on_init_mod()
         name = "",
         exception = true,
         players = {},
+        inventories = {},
         force_used = false,
         finish = false,
     })
@@ -65,12 +67,13 @@ local function on_configuration_changed()
         name = "",
         exception = true,
         players = {},
+        inventories = {},
         force_used = false,
         finish = false,
     })
     remote.call("RitnCoreGame", "init_data", "force_player", { name = ""})
     log('on_configuration_changed : RitnCoreGame -> finish !')
-    migration.version(0,3,9)
+    migration.version(0,3,10)
 end
 
 ------------------------------------------------------------------------------------------------------------
