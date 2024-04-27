@@ -1,4 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.4.0
+Date: 27.04.2024
+  Adds:
+    - Ajout d'une force par défaut "ritn~default", créer sur on_player_created (une fois seulement).
+    - Ajout de la methode insertInventory dans la classe RitnForce.
+    - Ajout d'une fonction exists() dans la classe RitnForce.
+    - Constantes ajouté dans RitnEvent : FORCE_DEFAULT = "ritn~default".
+---------------------------------------------------------------------------------------------------
 Version: 0.3.10
 Date: 24.02.2024
   Adds:

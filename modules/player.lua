@@ -1,6 +1,7 @@
 -- MODULE : PLAYER
 ---------------------------------------------------------------------------------------------
 local RitnEvent = require(ritnlib.defines.core.class.event)
+local RitnForce = require(ritnlib.defines.core.class.force)
 ---------------------------------------------------------------------------------------------
 
 
@@ -44,6 +45,12 @@ end
 
 local function on_player_created(e)
     if game.is_multiplayer() then remote.call("RitnCoreGame", "setMultiplayer") end
+
+    if RitnForce.exists(ritnlib.defines.core.names.force_default) == false then 
+        local rEvent = RitnEvent(e):createForceDefault()
+        local rForceDefault = RitnForce(rEvent.force)
+        rForceDefault:new():setException(true)
+    end
 end
 
 

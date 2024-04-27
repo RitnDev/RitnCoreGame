@@ -17,6 +17,7 @@ local RitnEvent = class.newclass(LibEvent, function(base, event)
     LibEvent.init(base, event, ritnlib.defines.core.name)
     --------------------------------------------------
     base.prefix_lobby = ritnlib.defines.core.names.prefix.lobby
+    base.FORCE_DEFAULT_NAME = ritnlib.defines.core.names.force_default
     --------------------------------------------------
 end)
 
@@ -67,6 +68,33 @@ function RitnEvent:generateLobby()
         --delete all entities (not character)
         for k,v in pairs(self.surface.find_entities_filtered{type = "character", invert = true, area=self.area}) do v.destroy{raise_destroy = true} end
     end
+end
+
+
+
+-- Créé une équipe enemy associé pour la surface : "enemy~"..SURFACE_NAME
+function RitnEvent:createForceDefault()
+    log('> '..self.object_name..':createForceDefault() -> '..self.name)
+
+    -- Création d'une force par défaut "ritn~default" si elle n'existe pas déjà
+    if RitnForce.exists(self.FORCE_DEFAULT_NAME) == false then
+        log('> Create force : ' .. self.FORCE_DEFAULT_NAME)
+        local LuaForce = game.create_force(self.FORCE_DEFAULT_NAME)
+        LuaForce.reset()
+        LuaForce.reset_evolution()
+
+        -- On désactive toute les recettes
+        for _,recipe in pairs(LuaForce.recipes) do
+            if recipe.enabled then
+                recipe.enabled = false
+            end
+        end
+
+        -- on implémente la nouvelle sur la donnée RitnEvent
+        self.force = LuaForce
+    end
+
+    return self
 end
 
 

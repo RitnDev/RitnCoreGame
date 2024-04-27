@@ -38,6 +38,21 @@ function RitnForce:isEnemy()
     return self.force.is_enemy()
 end
 
+-- Vérifie que la force existe
+-- @param force_name : nom de la force à vérifier
+function RitnForce.exists(force_name)
+    local exist = false
+    if type(force_name) == "string" then 
+        if game.forces[force_name] ~= nil then
+            exist = true 
+        end
+    else 
+        log('> '..self.object_name..".exists(force_name) -> force_name n'est pas de type string ou est nil")
+    end
+    
+    return exist
+end
+
 ----------------------------------------------------------------
 
 -- init data force
@@ -59,13 +74,18 @@ end
 
 -- create new force
 function RitnForce:create(force_name)
-    log('> RitnForce:create() -> '..force_name)
+    if type(force_name) == "string" then 
+        log('> RitnForce:create() -> '..force_name)
+    else 
+        log('> '..self.object_name..":create(force_name) -> force_name n'est pas de type string ou est nil")
+    end
 
     local LuaForce = game.create_force(force_name)
     LuaForce.reset()
     LuaForce.research_queue_enabled = true
     LuaForce.chart(force_name, {{x = -200, y = -200}, {x = 200, y = 200}})
     
+    -- la force est alliés a toutes les autres sauf "enemy" et "neutral"
     for _,force in pairs(game.forces) do
         if string.sub(force.name, 1, 5) ~= "enemy" and force.name ~= "neutral" then
             LuaForce.set_friend(force.name, true)
@@ -73,10 +93,12 @@ function RitnForce:create(force_name)
         end
     end
  
+    -- on active les mêmes recettes que la force "player" 
     for r_name, recipe in pairs(game.forces["player"].recipes) do
         LuaForce.recipes[r_name].enabled = recipe.enabled
     end
 
+    -- on créer la nouvelle force dans la structure RitnCoreGame
     self(LuaForce):new()
 
     return self
@@ -152,7 +174,7 @@ function RitnForce:setFinish(value)
 end
 
 ----------------------------------------------------------------
--- Sauvegarde l'inventaire d'un joueur dnas la data_force
+-- Sauvegarde l'inventaire d'un joueur dans la data_force
 function RitnForce:saveInventory(LuaPlayer, cursor)
     if self.data[self.name] == nil then return error(self.name .. " not init !") end 
     log('> '..self.object_name..':saveInventory() -> '..self.name)
@@ -172,7 +194,7 @@ function RitnForce:saveInventory(LuaPlayer, cursor)
     return self
 end
 
--- Chargement l'inventaire d'un joueur dnas la data_force
+-- Chargement l'inventaire d'un joueur depuis la data_force
 function RitnForce:loadInventory(LuaPlayer, cursor)
     if self.data[self.name] == nil then return error(self.name .. " not init !") end 
     log('> '..self.object_name..':loadInventory() -> '..self.name)
@@ -186,6 +208,19 @@ function RitnForce:loadInventory(LuaPlayer, cursor)
     end
 
     RitnInventory(LuaPlayer, self.data[self.name].inventories):load(save_cursor)
+    
+    self:update()
+
+    return self
+end
+
+-- Insert les objets dans l'inventaire d'un joueur depuis data_force[player] (copie)
+function RitnForce:insertInventory(LuaPlayer)
+    if self.data[self.name] == nil then return error(self.name .. " not init !") end 
+    log('> '..self.object_name..':insertInventory() -> '..self.name)
+
+    log('> self.FORCE_PLAYER_NAME = ' .. self.FORCE_PLAYER_NAME)
+    RitnInventory(LuaPlayer, self.data[self.FORCE_PLAYER_NAME].inventories):insert()
     
     self:update()
 

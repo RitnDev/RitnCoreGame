@@ -43,7 +43,8 @@ local defines = {
         prefix = {
             enemy = "enemy~",
             lobby = "lobby~",
-        }
+        },
+        force_default = "force~default",
     }
 }
 
