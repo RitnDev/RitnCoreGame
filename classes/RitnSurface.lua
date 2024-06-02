@@ -46,8 +46,7 @@ function RitnSurface:new(exception)
     self.data[self.name] = self.data_surface
 
     -- gestion des exceptions
-    local nauvis = self.name == "nauvis"
-    local vException = nauvis or self.admin
+    local vException = self.isNauvis or self.admin
     if exception ~= nil then 
         if type(exception) == "boolean" then 
             vException = exception
@@ -161,7 +160,7 @@ function RitnSurface:addPlayer(LuaPlayer)
     self.data[self.name].players[LuaPlayer.name].name = LuaPlayer.name
     log('> player '.. LuaPlayer.name .. ' -> surface : ' .. self.name .. ' (add)')
 
-    if self.name ~= "nauvis" then 
+    if self.isNauvis == false then 
         self.data[self.name].map_used = flib.tableBusy(self.data[self.name].players)
     end
 
@@ -175,14 +174,14 @@ function RitnSurface:removePlayer(LuaPlayer)
     if string.sub(self.name, 1, string.len(self.prefix_lobby)) == self.prefix_lobby then return self end
     log('> '..self.object_name..':removePlayer() -> '..self.name)
 
-    local exception = self.name == "nauvis" or LuaPlayer.admin
+    local exception = self.isNauvis or LuaPlayer.admin
     self:new(exception) 
 
     if self.data[self.name].players[LuaPlayer.name] == nil then return self end
 
     self.data[self.name].players[LuaPlayer.name] = nil
 
-    if self.name ~= "nauvis" then 
+    if self.isNauvis == false then 
         self.data[self.name].map_used = flib.tableBusy(self.data[self.name].players)
     end
 
