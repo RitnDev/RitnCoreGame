@@ -1,13 +1,11 @@
 -- MODULE : PLAYER
 ---------------------------------------------------------------------------------------------
-local RitnEvent = require(ritnlib.defines.core.class.event)
-local RitnForce = require(ritnlib.defines.core.class.force)
----------------------------------------------------------------------------------------------
+
 
 
 local function on_player_changed_surface(e)
-    local rEvent = RitnEvent(e)
-    local rPlayer = RitnEvent(e):getPlayer()
+    local rEvent = RitnCoreEvent(e)
+    local rPlayer = RitnCoreEvent(e):getPlayer()
     
     rPlayer:changeSurface()
     
@@ -17,8 +15,8 @@ end
 
 
 local function on_player_changed_force(e)
-    local rEvent = RitnEvent(e)
-    local rPlayer = RitnEvent(e):getPlayer()
+    local rEvent = RitnCoreEvent(e)
+    local rPlayer = RitnCoreEvent(e):getPlayer()
     
     rPlayer:changeForce()
     
@@ -27,8 +25,8 @@ end
 
 
 local function on_pre_player_left_game(e)
-    local rEvent = RitnEvent(e)
-    local rPlayer = RitnEvent(e):getPlayer()
+    local rEvent = RitnCoreEvent(e)
+    local rPlayer = RitnCoreEvent(e):getPlayer()
     
     local msg = 'on_pre_player_left_game: player: '.. rPlayer.name .. ' - surface: '..rPlayer.surface.name..' - reason: '.. rEvent:getReason()
     print(msg)
@@ -46,9 +44,9 @@ end
 local function on_player_created(e)
     if game.is_multiplayer() then remote.call("RitnCoreGame", "setMultiplayer") end
 
-    if RitnForce.exists(ritnlib.defines.core.names.force_default) == false then 
-        local rEvent = RitnEvent(e):createForceDefault()
-        local rForceDefault = RitnForce(rEvent.force)
+    if RitnCoreForce.exists(ritnlib.defines.core.names.force_default) == false then 
+        local rEvent = RitnCoreEvent(e):createForceDefault()
+        local rForceDefault = RitnCoreForce(rEvent.force)
         rForceDefault:new():setException(true)
     end
 end

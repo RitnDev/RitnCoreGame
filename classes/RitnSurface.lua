@@ -1,37 +1,27 @@
--- RitnSurface
+-- RitnCoreSurface
 ----------------------------------------------------------------
-local class = require(ritnlib.defines.class.core)
-local LibSurface = require(ritnlib.defines.class.luaClass.surface)
-----
 local flib = require(ritnlib.defines.core.functions)
-----------------------------------------------------------------
-
-
-
 ----------------------------------------------------------------
 --- CLASSE DEFINES
 ----------------------------------------------------------------
-local RitnSurface = class.newclass(LibSurface, function(base, LuaSurface)
-    if LuaSurface == nil then return end
-    if LuaSurface.valid == false then return end
-    if LuaSurface.object_name ~= "LuaSurface" then return end
-    LibSurface.init(base, LuaSurface)
+RitnCoreSurface = ritnlib.classFactory.newclass(RitnLibSurface, function(self, LuaSurface)
+    RitnLibSurface.init(self, LuaSurface)
     --------------------------------------------------
-    base.admin = false
-    base.data = remote.call("RitnCoreGame", "get_surfaces")
-    base.data_player = remote.call("RitnCoreGame", "get_data", "surface_player")
-    base.data_surface = remote.call("RitnCoreGame", "get_data", "surface")
-    base.data_surface.index = base.index
-    base.data_surface.name = base.name
+    self.admin = false
+    self.data = remote.call("RitnCoreGame", "get_surfaces")
+    self.data_player = remote.call("RitnCoreGame", "get_data", "surface_player")
+    self.data_surface = remote.call("RitnCoreGame", "get_data", "surface")
+    self.data_surface.index = self.index
+    self.data_surface.name = self.name
     ----
-    base.prefix_lobby = ritnlib.defines.core.names.prefix.lobby
+    self.prefix_lobby = ritnlib.defines.core.names.prefix.lobby
     --------------------------------------------------
 end)
 
 ----------------------------------------------------------------
 
 -- nb surfaces
-function RitnSurface:length()
+function RitnCoreSurface:length()
     return #self.data
 end
 
@@ -39,7 +29,7 @@ end
 ----------------------------------------------------------------
 
 -- init data surface
-function RitnSurface:new(exception)
+function RitnCoreSurface:new(exception)
     if self.data[self.name] then return self end 
     log('> '..self.object_name..':new() -> '..self.name)
     
@@ -63,7 +53,7 @@ end
 
 
 -- GET EXCEPTION
-function RitnSurface:getException()
+function RitnCoreSurface:getException()
     if self.data[self.name] == nil then return error(self.name .. " not init !") end 
     log('> '..self.object_name..':getException() -> '..self.name)
     return self.data[self.name].exception
@@ -71,7 +61,7 @@ end
 
 
 -- SET EXCEPTION
-function RitnSurface:setException(value)
+function RitnCoreSurface:setException(value)
     if type(value) ~= "boolean" then return self end
     if self.data[self.name] == nil then return error(self.name .. " not init !") end 
     log('> '..self.object_name..':setException() -> '..self.name)
@@ -84,7 +74,7 @@ function RitnSurface:setException(value)
 end
 
 -- GET FINISH
-function RitnSurface:getFinish()
+function RitnCoreSurface:getFinish()
     if self.data[self.name] == nil then return error(self.name .. " not init !") end 
     log('> '..self.object_name..':getFinish() -> '..self.name)
 
@@ -93,7 +83,7 @@ end
 
 
 -- SET FINISH
-function RitnSurface:setFinish(value)
+function RitnCoreSurface:setFinish(value)
     if type(value) ~= "boolean" then return self end
     if self.data[self.name] == nil then return error(self.name .. " not init !") end
     log('> '..self.object_name..':setFinish() -> '..self.name) 
@@ -107,13 +97,13 @@ end
 
 
 -- GET ADMIN
-function RitnSurface:getAdmin()
+function RitnCoreSurface:getAdmin()
     return self.admin
 end
 
 
 -- SET ADMIN
-function RitnSurface:setAdmin(admin)
+function RitnCoreSurface:setAdmin(admin)
     local vAdmin = false
     if admin ~= nil then vAdmin = admin end
     if type(vAdmin) ~= "boolean" then return self end
@@ -126,7 +116,7 @@ end
 
 
 -- GET ORIGINE
-function RitnSurface:getOrigine()
+function RitnCoreSurface:getOrigine()
     if self.data[self.name] == nil then return error(self.name .. " not init !") end 
     log('> '..self.object_name..':getOrigine() -> '..self.name)
 
@@ -135,7 +125,7 @@ end
 
 
 -- SET ORIGINE
-function RitnSurface:setOrigine(origine)
+function RitnCoreSurface:setOrigine(origine)
     if type(origine) ~= "string" then return self end
     if self.data[self.name] == nil then return error(self.name .. " not init !") end 
     log('> '..self.object_name..':setOrigine() -> '..self.name)
@@ -150,7 +140,7 @@ end
 
 ----------------------------------------------------------------
 
-function RitnSurface:addPlayer(LuaPlayer)
+function RitnCoreSurface:addPlayer(LuaPlayer)
     if string.sub(self.name, 1, string.len(self.prefix_lobby)) == self.prefix_lobby then return self end
     log('> '..self.object_name..':addPlayer() -> '..self.name)
     
@@ -170,7 +160,7 @@ function RitnSurface:addPlayer(LuaPlayer)
 end
 
 
-function RitnSurface:removePlayer(LuaPlayer)
+function RitnCoreSurface:removePlayer(LuaPlayer)
     if string.sub(self.name, 1, string.len(self.prefix_lobby)) == self.prefix_lobby then return self end
     log('> '..self.object_name..':removePlayer() -> '..self.name)
 
@@ -193,7 +183,7 @@ function RitnSurface:removePlayer(LuaPlayer)
 end
 
 
-function RitnSurface:delete()
+function RitnCoreSurface:delete()
     log('> '..self.object_name..':delete() -> '..self.name)
     local core_data_surfaces = remote.call("RitnCoreGame", "get_surfaces")
 
@@ -213,15 +203,15 @@ end
 
 ----------------------------------------------------------------
 --[[ 
-function RitnSurface:getInventories() 
+function RitnCoreSurface:getInventories() 
     return self.data[self.name].inventories
 end
 ]]
 
-function RitnSurface:update()
+function RitnCoreSurface:update()
     remote.call("RitnCoreGame", "set_surfaces", self.data) 
     return self
 end
 
 ----------------------------------------------------------------
-return RitnSurface
+--return RitnCoreSurface

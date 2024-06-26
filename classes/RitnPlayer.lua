@@ -1,43 +1,28 @@
--- RitnPlayer
+-- RitnCorePlayer
 ----------------------------------------------------------------
-local class = require(ritnlib.defines.class.core)
-----
 local crashSite = require(ritnlib.defines.vanilla.crash_site)
 local util = require(ritnlib.defines.vanilla.util)
-----
-local LibPlayer = require(ritnlib.defines.class.luaClass.player)
-local libInventory = require(ritnlib.defines.class.ritnClass.inventory)
-----
+local string = require(ritnlib.defines.string)
+local flib = require(ritnlib.defines.other)
+----------------------------------------------------------------
 local seablock = require(ritnlib.defines.core.mods.seablock)
-----------------------------------------------------------------
-local RitnSurface = require(ritnlib.defines.core.class.surface)
-local RitnForce = require(ritnlib.defines.core.class.force)
-----------------------------------------------------------------
-
-
-
-
 ----------------------------------------------------------------
 --- CLASSE DEFINES
 ----------------------------------------------------------------
-local RitnPlayer = class.newclass(LibPlayer, function(base, LuaPlayer)
-    if LuaPlayer == nil then return end
-    if LuaPlayer.valid == false then return end
-    if LuaPlayer.is_player() == false then return end
-    if LuaPlayer.object_name ~= "LuaPlayer" then return end
-    LibPlayer.init(base, LuaPlayer)
+RitnCorePlayer = ritnlib.classFactory.newclass(RitnLibPlayer, function(self, LuaPlayer)
+    RitnLibPlayer.init(self, LuaPlayer)
     --------------------------------------------------
-    base.data = remote.call('RitnCoreGame', 'get_players')
-    base.data_player = remote.call("RitnCoreGame", "get_data", "player")
-    base.data_player.index = base.index
-    base.data_player.name = base.name
-    base.data_player.surface = base.surface.name
-    base.data_player.force = base.force.name
+    self.data = remote.call('RitnCoreGame', 'get_players')
+    self.data_player = remote.call("RitnCoreGame", "get_data", "player")
+    self.data_player.index = self.index
+    self.data_player.name = self.name
+    self.data_player.surface = self.surface.name
+    self.data_player.force = self.force.name
     ----
-    base.gui_action = {}
-    base.lobby_name = ritnlib.defines.core.names.prefix.lobby .. base.name
+    self.gui_action = {}
+    self.lobby_name = ritnlib.defines.core.names.prefix.lobby .. self.name
     ----
-    base.clear_item = true          -- option    
+    self.clear_item = true          -- option    
     --------------------------------------------------
 end)
 ----------------------------------------------------------------
@@ -45,17 +30,17 @@ end)
 
 
 -- Override : getSurface()
-function RitnPlayer:getSurface()
-    return RitnSurface(self.surface)
+function RitnCorePlayer:getSurface()
+    return RitnCoreSurface(self.surface)
 end
 
 -- Override : getForce()
-function RitnPlayer:getForce()
-    return RitnForce(self.force)
+function RitnCorePlayer:getForce()
+    return RitnCoreForce(self.force)
 end
 
 
-function RitnPlayer:changeSurface()
+function RitnCorePlayer:changeSurface()
     if self.data[self.index] == nil then return self end  
     self.data[self.index].surface = self.surface.name 
     self:update()
@@ -64,7 +49,7 @@ function RitnPlayer:changeSurface()
 end
 
 
-function RitnPlayer:changeForce()
+function RitnCorePlayer:changeForce()
     if self.data[self.index] == nil then return self end  
     self.data[self.index].force = self.force.name 
     self:update()
@@ -73,7 +58,7 @@ function RitnPlayer:changeForce()
 end
 
 
-function RitnPlayer:init()
+function RitnCorePlayer:init()
     if self.data[self.index] ~= nil then return self end 
 
     self.data[self.index] = self.data_player
@@ -90,7 +75,7 @@ end
 
 
 
-function RitnPlayer:new(teleport)
+function RitnCorePlayer:new(teleport)
     log('> '..self.object_name..':new() -> '..self.name)
     if self.data[self.index] ~= nil then return self end 
 
@@ -101,7 +86,7 @@ function RitnPlayer:new(teleport)
 end
 
 
-function RitnPlayer:online()
+function RitnCorePlayer:online()
     if self.data[self.index] == nil then return self end 
     log('> '..self.object_name..':online()')
     self.data[self.index].connected = self.player.connected
@@ -109,7 +94,7 @@ function RitnPlayer:online()
     return self
 end
 
-function RitnPlayer:setOrigine(origine)
+function RitnCorePlayer:setOrigine(origine)
     if type(origine) ~= 'string' then return self end
     local surfaces = remote.call("RitnCoreGame", "get_surfaces")
     if surfaces[origine] == nil then return self end
@@ -123,8 +108,29 @@ function RitnPlayer:setOrigine(origine)
     return self
 end
 
+
+-- Retourne la map d'origine
+function RitnCorePlayer:getOrigine()
+    if self.data[self.index] == nil then return "" end 
+    log('> '..self.object_name..':getOrigine() -> ' .. tostring(self.data[self.index].origine))
+    return self.data[self.index].origine 
+end
+
+
+-- Est ce que le joueur est propriétaire de sa map d'origine ?
+function RitnCorePlayer:isOwner()
+    if self.data[self.index] == nil then return false end
+    log('> '..self.object_name..':isOwner()')
+    local origine = string.defaultValue(self.data[self.index].origine)
+    local player_name = string.defaultValue(self.data[self.index].name)
+  
+    return flib.ifElse(string.isEmptyString(origine) or string.isEmptyString(player_name), false, (origine == player_name))
+end
+
+
+
 -- retourne une position selon l'index joueur
-function RitnPlayer:positionTP(pointOrigine)
+function RitnCorePlayer:positionTP(pointOrigine)
     local point = 0.0
     if pointOrigine ~= nil then point = pointOrigine end
     point = point + (0.3 * self.index)
@@ -133,7 +139,7 @@ end
 
 
 -- create surface lobby
-function RitnPlayer:createLobby(teleport)
+function RitnCorePlayer:createLobby(teleport)
     if script.level.level_name == "freeplay" then
         log('> '..self.object_name..':createLobby(teleport)')
 
@@ -169,7 +175,7 @@ end
 
 
 -- Creation de la surface et force du joueur
-function RitnPlayer:createSurface()
+function RitnCorePlayer:createSurface()
     log('> '..self.object_name..':createSurface() -> '..self.name)
   
     --return map_gen_settings
@@ -191,13 +197,13 @@ function RitnPlayer:createSurface()
         seablock.startMap(LuaSurface)
     end
 
-    -- init RitnSurface
-    RitnSurface(LuaSurface):setAdmin(self.admin):new():setOrigine(self.name)
+    -- init RitnCoreSurface
+    RitnCoreSurface(LuaSurface):setAdmin(self.admin):new():setOrigine(self.name)
     self:setOrigine(self.name)
 
-    -- init RitnForce
+    -- init RitnCoreForce
     log('> '..self.object_name..':createSurface() => RitnForce:create('..self.name..')')
-    RitnForce:create(self.name)
+    RitnCoreForce:create(self.name)
     
     -- Teleportation du personnage sur la nouvelle surface
     local origine = self.data[self.index].origine
@@ -217,7 +223,7 @@ end
 
 
 -- set character active if character existe
-function RitnPlayer:setActive(value)
+function RitnCorePlayer:setActive(value)
     if type(value) ~= "boolean" then return self end 
 
     if self.player.character then
@@ -229,7 +235,7 @@ end
 
 
 
-function RitnPlayer:teleport(position, surface, optDecalage, pointOrigine) 
+function RitnCorePlayer:teleport(position, surface, optDecalage, pointOrigine) 
     local option = false
     local decalage = 0.0
     if optDecalage ~= nil then option = optDecalage end
@@ -245,15 +251,15 @@ function RitnPlayer:teleport(position, surface, optDecalage, pointOrigine)
 end
 
 
-function RitnPlayer:teleportLobby()
+function RitnCorePlayer:teleportLobby()
     self:teleport({0,0}, self.lobby_name)
 end
 
 
 
-function RitnPlayer:update()
+function RitnCorePlayer:update()
     remote.call("RitnCoreGame", "set_players", self.data) 
 end
 
 ------------------------------------------------------------
-return RitnPlayer
+--return RitnCorePlayer

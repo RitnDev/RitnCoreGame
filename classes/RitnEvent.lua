@@ -1,48 +1,41 @@
--- RitnEvent
+-- RitnCoreEvent
 ----------------------------------------------------------------
-local class = require(ritnlib.defines.class.core)
-local LibEvent = require(ritnlib.defines.class.luaClass.event)
-----------------------------------------------------------------
-local RitnPlayer = require(ritnlib.defines.core.class.player)
-local RitnSurface = require(ritnlib.defines.core.class.surface)
-local RitnForce = require(ritnlib.defines.core.class.force)
-----------------------------------------------------------------
-
-
+local string = require(ritnlib.defines.string)
 ----------------------------------------------------------------
 --- CLASSE DEFINES
 ----------------------------------------------------------------
-local RitnEvent = class.newclass(LibEvent, function(base, event)
-    if event == nil then return end
-    LibEvent.init(base, event, ritnlib.defines.core.name)
+RitnCoreEvent = ritnlib.classFactory.newclass(RitnLibEvent, function(self, event)
+    RitnLibEvent.init(self, event, ritnlib.defines.core.name)
+    log(string.defaultValue(self.object_name, "titi"))
+    log(string.defaultValue(self.name, "tata"))
     --------------------------------------------------
-    base.prefix_lobby = ritnlib.defines.core.names.prefix.lobby
-    base.FORCE_DEFAULT_NAME = ritnlib.defines.core.names.force_default
+    self.prefix_lobby = ritnlib.defines.core.names.prefix.lobby
+    self.FORCE_DEFAULT_NAME = ritnlib.defines.core.names.force_default
     --------------------------------------------------
 end)
 
 ----------------------------------------------------------------
 
 -- Override : getSurface()
-function RitnEvent:getSurface()
-    return RitnSurface(self.surface)
+function RitnCoreEvent:getSurface()
+    return RitnCoreSurface(self.surface)
 end
 
 
 -- Override : getForce()
-function RitnEvent:getForce()
-    return RitnForce(self.force)
+function RitnCoreEvent:getForce()
+    return RitnCoreForce(self.force)
 end
 
 
 -- Override : getPlayer()
-function RitnEvent:getPlayer()
-    return RitnPlayer(self.player)
+function RitnCoreEvent:getPlayer()
+    return RitnCorePlayer(self.player)
 end
 
 
 
-function RitnEvent:generateLobby()
+function RitnCoreEvent:generateLobby()
     local tv = {}
     local tab_tiles = {}
     local tx
@@ -73,11 +66,11 @@ end
 
 
 -- Créé une équipe enemy associé pour la surface : "enemy~"..SURFACE_NAME
-function RitnEvent:createForceDefault()
-    log('> '..self.object_name..':createForceDefault() -> '..self.name)
+function RitnCoreEvent:createForceDefault()
+    log('> '..string.defaultValue(self.object_name, "RitnCoreEvent")..':createForceDefault() -> '..string.defaultValue(self.name))
 
     -- Création d'une force par défaut "ritn~default" si elle n'existe pas déjà
-    if RitnForce.exists(self.FORCE_DEFAULT_NAME) == false then
+    if RitnCoreForce.exists(self.FORCE_DEFAULT_NAME) == false then
         log('> Create force : ' .. self.FORCE_DEFAULT_NAME)
         local LuaForce = game.create_force(self.FORCE_DEFAULT_NAME)
         LuaForce.reset()
@@ -90,7 +83,7 @@ function RitnEvent:createForceDefault()
             end
         end
 
-        -- on implémente la nouvelle sur la donnée RitnEvent
+        -- on implémente la nouvelle sur la donnée RitnCoreEvent
         self.force = LuaForce
     end
 
@@ -99,4 +92,4 @@ end
 
 
 
-return RitnEvent
+--return RitnCoreEvent
