@@ -281,13 +281,11 @@ function RitnCorePlayer:clearCursor(item_name, msg_print)
         self.player.clear_cursor()
         log('player.clear_cursor()')
 
-        if type(msg_print) == ('string' or 'table') then 
-            util.tryCatch(
-                function() 
-                    self.player.print(msg_print)
-                end
-            )
-        end
+        flib.tryCatch(
+            function() 
+                self.player.print(msg_print)
+            end
+        )
     end
 end
 
