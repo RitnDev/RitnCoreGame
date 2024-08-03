@@ -117,6 +117,14 @@ function RitnCorePlayer:getOrigine()
 end
 
 
+-- Le joueur se trouve-t-il sur sa map d'origine ?
+function RitnCorePlayer:isOrigine()
+    log('> '..self.object_name..':isOrigine()')
+    return (self:getOrigine() == self.surface.name)
+end
+
+
+
 -- Est ce que le joueur est propriétaire de sa map d'origine ?
 function RitnCorePlayer:isOwner()
     if self.data[self.index] == nil then return false end
@@ -253,6 +261,34 @@ end
 
 function RitnCorePlayer:teleportLobby()
     self:teleport({0,0}, self.lobby_name)
+end
+
+
+
+
+function RitnCorePlayer:clearCursor(item_name, msg_print)
+    if self.data[self.index] == nil then return end 
+    if self.player.cursor_stack.count == 0 then return end
+    
+    local LuaItemStack = self.player.cursor_stack
+    if LuaItemStack == nil then return end
+    if LuaItemStack.valid == false then return end
+
+    if LuaItemStack.name == item_name then 
+        -- Ne rien faire s'il est sur Nauvis ou sur sa map d'origine
+        if self:isOrigine() or self:onNauvis() then return end 
+
+        self.player.clear_cursor()
+        log('player.clear_cursor()')
+
+        if type(msg_print) == ('string' or 'table') then 
+            util.tryCatch(
+                function() 
+                    self.player.print(msg_print)
+                end
+            )
+        end
+    end
 end
 
 

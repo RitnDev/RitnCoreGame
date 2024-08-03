@@ -1,13 +1,13 @@
 {
   "name": "RitnCoreGame",
-  "version": "0.5.0",
+  "version": "0.5.2",
   "title": "RitnCoreGame",
   "author": "Ritn",
   "description": "Coeur du système de jeu développé par Ritn.\nCore of a game system that is developed by Ritn.",
   "factorio_version": "1.1",
   "dependencies":[
     "base >= 1.1",
-    "RitnLib >= 0.8.2",
+    "RitnLib >= 0.8.7",
     "! space-exploration",
     "! warptorio2"
   ]

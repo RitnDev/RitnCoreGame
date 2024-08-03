@@ -6,8 +6,6 @@ local string = require(ritnlib.defines.string)
 ----------------------------------------------------------------
 RitnCoreEvent = ritnlib.classFactory.newclass(RitnLibEvent, function(self, event)
     RitnLibEvent.init(self, event, ritnlib.defines.core.name)
-    log(string.defaultValue(self.object_name, "titi"))
-    log(string.defaultValue(self.name, "tata"))
     --------------------------------------------------
     self.prefix_lobby = ritnlib.defines.core.names.prefix.lobby
     self.FORCE_DEFAULT_NAME = ritnlib.defines.core.names.force_default
