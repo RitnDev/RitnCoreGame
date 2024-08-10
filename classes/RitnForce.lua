@@ -1,6 +1,7 @@
 -- RitnCoreForce
 ----------------------------------------------------------------
-local flib = require(ritnlib.defines.core.functions)
+local table = require(ritnlib.defines.table)
+local util = require(ritnlib.defines.other)
 ----------------------------------------------------------------
 --- CLASSE DEFINES
 ----------------------------------------------------------------
@@ -13,6 +14,7 @@ RitnCoreForce = ritnlib.classFactory.newclass(RitnLibForce, function(self, LuaFo
     self.data_force.name = self.name
     self.data_force.index = self.index
     --------------------------------------------------
+    self.FORCE_DEFAULT_NAME = ritnlib.defines.core.names.force_default
 end)
 
 ----------------------------------------------------------------
@@ -26,6 +28,12 @@ end
 function RitnCoreForce:isEnemy()
     return self.force.is_enemy()
 end
+
+-- force "force~default"
+function RitnCoreForce:isForceDefault() 
+    return (self.force.name == self.FORCE_DEFAULT_NAME)
+end
+
 
 -- Vérifie que la force existe
 -- @param force_name : nom de la force à vérifier
@@ -94,6 +102,7 @@ function RitnCoreForce:create(force_name)
 end
 
 
+
 function RitnCoreForce.delete(force_name)
     local core_data_forces = remote.call("RitnCoreGame", "get_forces")
 
@@ -114,12 +123,14 @@ function RitnCoreForce.delete(force_name)
 end
 
 
+
 -- GET EXCEPTION
 function RitnCoreForce:getException()
     if self.data[self.name] == nil then return error(self.name .. " not init !") end 
     log('> '..self.object_name..':getException() -> '..self.name)
     return self.data[self.name].exception
 end
+
 
 
 -- SET EXCEPTION
@@ -140,6 +151,7 @@ function RitnCoreForce:setException(value)
 end
 
 
+
 -- GET FINISH
 function RitnCoreForce:getFinish()
     if self.data[self.name] == nil then return error(self.name .. " not init !") end 
@@ -147,6 +159,7 @@ function RitnCoreForce:getFinish()
 
     return self.data[self.name].finish
 end
+
 
 
 -- SET FINISH
@@ -162,6 +175,9 @@ function RitnCoreForce:setFinish(value)
     return self
 end
 
+
+
+
 ----------------------------------------------------------------
 -- Sauvegarde l'inventaire d'un joueur dans la data_force
 function RitnCoreForce:saveInventory(LuaPlayer, cursor)
@@ -170,18 +186,25 @@ function RitnCoreForce:saveInventory(LuaPlayer, cursor)
 
     -- Doit-on sauvegarder ce que le joueur possède dans la main ?
     local save_cursor = true
-    if cursor ~= nil then 
-        if type(cursor) == "boolean" then    
-            save_cursor = cursor 
-        end
+    if type(cursor) == "boolean" then    
+        save_cursor = cursor 
     end
 
-    RitnLibInventory(LuaPlayer, self.data[self.name].inventories):save(save_cursor)
+    util.tryCatch(function()
+        RitnLibInventory(LuaPlayer, self.data[self.name].inventories):save(save_cursor)
+    end,
+    function()
+        log('ERROR: RitnCoreForce:saveInventory -> ' .. self.name)
+    end)
+    
     
     self:update()
 
     return self
 end
+
+
+
 
 -- Chargement l'inventaire d'un joueur depuis la data_force
 function RitnCoreForce:loadInventory(LuaPlayer, cursor)
@@ -196,20 +219,47 @@ function RitnCoreForce:loadInventory(LuaPlayer, cursor)
         end
     end
 
-    RitnLibInventory(LuaPlayer, self.data[self.name].inventories):load(save_cursor)
+    util.tryCatch(function()
+        RitnLibInventory(LuaPlayer, self.data[self.name].inventories):load(save_cursor)
+    end,
+    function()
+        log('ERROR: RitnCoreForce:loadInventory -> ' .. self.name)
+    end)
     
     self:update()
 
     return self
 end
 
+
+
+
 -- Insert les objets dans l'inventaire d'un joueur depuis data_force[player] (copie)
 function RitnCoreForce:insertInventory(LuaPlayer)
     if self.data[self.name] == nil then return error(self.name .. " not init !") end 
     log('> '..self.object_name..':insertInventory() -> '..self.name)
 
-    log('> self.FORCE_PLAYER_NAME = ' .. self.FORCE_PLAYER_NAME)
+    -- Insert les objets enregistrés dans la force "player" sur la force actuelle (copie des items)
     RitnLibInventory(LuaPlayer, self.data[self.FORCE_PLAYER_NAME].inventories):insert()
+
+    self:update()
+
+    return self
+end
+
+
+-- Insert les objets dans l'inventaire d'un joueur depuis data_force[player] (copie)
+function RitnCoreForce:deleteInventory(LuaPlayer)
+    if self.data[self.name] == nil then return error(self.name .. " not init !") end 
+    log('> '..self.object_name..':deleteInventory() -> '..self.name)
+
+    if (LuaPlayer ~= nil) then 
+        log('LuaPlayer.name: ' .. LuaPlayer.name)
+        -- Suppression de tous l'inventaire du joueur (inventoryGlobal sert juste à pas avoir nil)
+        local rInventory = RitnLibInventory(LuaPlayer, {})
+        log('inventory.name: ' .. rInventory.name)
+        rInventory:delete()
+    end 
     
     self:update()
 
@@ -227,7 +277,7 @@ function RitnCoreForce:addPlayer(LuaPlayer)
     self.data[self.name].players[LuaPlayer.name].name = LuaPlayer.name
     log('> player '.. LuaPlayer.name .. ' -> force : ' .. self.name .. ' (add)')
 
-    self.data[self.name].force_used = flib.tableBusy(self.data[self.name].players)
+    self.data[self.name].force_used = table.busy(self.data[self.name].players)
 
     self:update()
 
@@ -244,7 +294,7 @@ function RitnCoreForce:removePlayer(LuaPlayer)
 
     self.data[self.name].players[LuaPlayer.name] = nil
  
-    self.data[self.name].force_used = flib.tableBusy(self.data[self.name].players)
+    self.data[self.name].force_used = table.busy(self.data[self.name].players)
 
     log('> player '.. LuaPlayer.name .. ' -> force : ' .. self.name .. ' (remove)')
 

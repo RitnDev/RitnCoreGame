@@ -1,4 +1,13 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.5.3
+Date: 10.08.2024
+  Adds:
+    - Suppression des technologies dans la force par défaut (force~default).
+    - Ajout de methode : 
+        - RitnCoreForce:deleteInventory(LuaPlayer)
+        - RitnCorePlayer:isForceDefault()
+        - RitnCorePlayer:isLobby()
+---------------------------------------------------------------------------------------------------
 Version: 0.5.2
 Date: 03.08.2024
   Adds:

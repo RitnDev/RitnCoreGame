@@ -21,6 +21,7 @@ RitnCorePlayer = ritnlib.classFactory.newclass(RitnLibPlayer, function(self, Lua
     ----
     self.gui_action = {}
     self.lobby_name = ritnlib.defines.core.names.prefix.lobby .. self.name
+    self.FORCE_DEFAULT_NAME = ritnlib.defines.core.names.force_default
     ----
     self.clear_item = true          -- option    
     --------------------------------------------------
@@ -133,6 +134,20 @@ function RitnCorePlayer:isOwner()
     local player_name = string.defaultValue(self.data[self.index].name)
   
     return flib.ifElse(string.isEmptyString(origine) or string.isEmptyString(player_name), false, (origine == player_name))
+end
+
+
+-- Retourne true si le joueur est actuellement dans la force : "force~default"
+function RitnCorePlayer:isForceDefault()
+    if self.data[self.index] == nil then return false end
+    log('> '..self.object_name..':isForceDefault()')
+    return (self.force.name == self.FORCE_DEFAULT_NAME)
+end
+
+
+-- Le joueur se trouve à son lobby
+function RitnCorePlayer:isLobby() 
+    return self.surface.name == self.lobby_name
 end
 
 
@@ -260,6 +275,8 @@ end
 
 
 function RitnCorePlayer:teleportLobby()
+    log('> '..self.object_name..':teleportLobby() -> ' .. self.lobby_name)
+    self.force = game.forces[self.FORCE_DEFAULT_NAME]
     self:teleport({0,0}, self.lobby_name)
 end
 

@@ -81,13 +81,16 @@ function RitnCoreEvent:createForceDefault()
             end
         end
 
+        -- On désactive toute les technologies
+        for _,tech in pairs(LuaForce.technologies) do
+            if tech.enabled then
+                tech.enabled = false
+            end
+        end
+
         -- on implémente la nouvelle sur la donnée RitnCoreEvent
         self.force = LuaForce
     end
 
     return self
 end
-
-
-
---return RitnCoreEvent

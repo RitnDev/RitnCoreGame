@@ -202,16 +202,7 @@ function RitnCoreSurface:delete()
 end
 
 ----------------------------------------------------------------
---[[ 
-function RitnCoreSurface:getInventories() 
-    return self.data[self.name].inventories
-end
-]]
-
 function RitnCoreSurface:update()
     remote.call("RitnCoreGame", "set_surfaces", self.data) 
     return self
 end
-
-----------------------------------------------------------------
---return RitnCoreSurface
