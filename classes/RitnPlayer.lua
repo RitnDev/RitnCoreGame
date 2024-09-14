@@ -104,7 +104,7 @@ function RitnCorePlayer:setOrigine(origine)
     log('> '..self.object_name..':setOrigine('..origine..')')
 
     self.data[self.index].origine = origine
- 
+
     self:update()
     return self
 end
@@ -132,7 +132,7 @@ function RitnCorePlayer:isOwner()
     log('> '..self.object_name..':isOwner()')
     local origine = string.defaultValue(self.data[self.index].origine)
     local player_name = string.defaultValue(self.data[self.index].name)
-  
+
     return flib.ifElse(string.isEmptyString(origine) or string.isEmptyString(player_name), false, (origine == player_name))
 end
 
@@ -184,8 +184,8 @@ function RitnCorePlayer:createLobby(teleport)
             end
         end
 
-        LuaSurface.set_tiles(tiles) 
-         
+        LuaSurface.set_tiles(tiles)
+
         if goTeleport then 
             self:teleportLobby()
         end
@@ -200,7 +200,7 @@ end
 -- Creation de la surface et force du joueur
 function RitnCorePlayer:createSurface()
     log('> '..self.object_name..':createSurface() -> '..self.name)
-  
+
     --return map_gen_settings
     local map_gen = remote.call("RitnCoreGame", "save_map_settings")
 
@@ -214,7 +214,7 @@ function RitnCorePlayer:createSurface()
     end
     
     LuaSurface.set_tiles(tiles)
-  
+    
     --seablock options generated map
     if game.active_mods["SeaBlock"] then  
         seablock.startMap(LuaSurface)
@@ -311,6 +311,3 @@ end
 function RitnCorePlayer:update()
     remote.call("RitnCoreGame", "set_players", self.data) 
 end
-
-------------------------------------------------------------
---return RitnCorePlayer
