@@ -59,8 +59,8 @@ local function on_configuration_changed()
     end
     remote.call("RitnCoreGame", "set_options", options)
     ---------------------------------
-    global.core.cheatModeActivated = false
-    global.core.multiplayer = game.is_multiplayer()
+    storage.core.cheatModeActivated = false
+    storage.core.multiplayer = game.is_multiplayer()
     ---------------------------------
     remote.call("RitnCoreGame", "init_data", "force", {
         index = 0,
@@ -73,12 +73,14 @@ local function on_configuration_changed()
     })
     remote.call("RitnCoreGame", "init_data", "force_player", { name = ""})
     log('on_configuration_changed : RitnCoreGame -> finish !')
-    migration.version(0,3,10)
+    migration.version(0,6,0)
 end
 
-------------------------------------------------------------------------------------------------------------
--- events :
-script.on_init(on_init_mod)
-script.on_configuration_changed(on_configuration_changed)
 ---------------------------------------------------------------------------------------------
-return {}
+local module = {events = {}}
+---------------------------------------------------------------------------------------------
+-- events :
+module.on_init = on_init_mod
+module.on_configuration_changed = on_configuration_changed
+---------------------------------------------------------------------------------------------
+return module

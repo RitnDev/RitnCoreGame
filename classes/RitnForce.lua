@@ -79,7 +79,6 @@ function RitnCoreForce:create(force_name)
 
     local LuaForce = game.create_force(force_name)
     LuaForce.reset()
-    LuaForce.research_queue_enabled = true
     LuaForce.chart(force_name, {{x = -200, y = -200}, {x = 200, y = 200}})
     
     -- la force est alliés a toutes les autres sauf "enemy" et "neutral"
@@ -111,11 +110,11 @@ function RitnCoreForce.delete(force_name)
     core_data_forces[force_name].players = {}
     
     if not core_data_forces[force_name].exception then 
-        -- suppression de la force : global.core.forces[force_name] = nil
+        -- suppression de la force : storage.core.forces[force_name] = nil
         core_data_forces[force_name] = nil
     end
 
-    -- update global.core.forces
+    -- update storage.core.forces
     remote.call("RitnCoreGame", "set_forces", core_data_forces) 
 
     local nb_forces = remote.call('RitnCoreGame', 'get_values', 'forces') - 1

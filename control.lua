@@ -1,4 +1,4 @@
--- Initialisation des variables globals
+-- Initialisation des variables storage
 require("__RitnCoreGame__.core.defines")
 require(ritnlib.defines.core.setup)
 -- Activation de gvv s'il est présent

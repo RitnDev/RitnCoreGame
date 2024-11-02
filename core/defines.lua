@@ -26,7 +26,7 @@ local defines = {
     modules = {
         core = mod_name .. ".core.modules",
         ----
-        globals = mod_name .. ".modules.globals",
+        storage = mod_name .. ".modules.storage",
         events = mod_name .. ".modules.events",
         commands = mod_name .. ".modules.commands",
         ----

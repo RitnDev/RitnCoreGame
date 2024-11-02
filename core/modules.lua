@@ -1,7 +1,8 @@
 local modules = {}
+log('modules RitnCoreGame')
 ------------------------------------------------------------------------------
 -- Inclus les events onInit et onLoad + les ajouts de commandes
-modules.globals =   require(ritnlib.defines.core.modules.globals)
+modules.storage =   require(ritnlib.defines.core.modules.storage)
 modules.events =    require(ritnlib.defines.core.modules.events)
 modules.commands =  require(ritnlib.defines.core.modules.commands)
 ----

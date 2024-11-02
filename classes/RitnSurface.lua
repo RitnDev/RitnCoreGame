@@ -190,11 +190,11 @@ function RitnCoreSurface:delete()
     if core_data_surfaces[self.name] == nil then return end
     
     if not core_data_surfaces[self.name].exception then 
-        -- suppression de la force : global.core.surfaces[surface_name] = nil
+        -- suppression de la force : storage.core.surfaces[surface_name] = nil
         core_data_surfaces[self.name] = nil
     end
 
-    -- update global.core.surfaces
+    -- update storage.core.surfaces
     remote.call("RitnCoreGame", "set_surfaces", core_data_surfaces) 
 
     local nb_surfaces = remote.call('RitnCoreGame', 'get_values', 'surfaces') - 1

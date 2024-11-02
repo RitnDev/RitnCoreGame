@@ -1,4 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.6.0
+Date: 12.10.2024
+  Changes:
+    - Passage en 2.0.
+    - Variable "global" -> "storage".
+  Fixes:
+    - core.lualib.event_handler : on_init, on_configuration_changed passe dans le module désormais.
+---------------------------------------------------------------------------------------------------
 Version: 0.5.4
 Date: 14.09.2024
   Changes:
@@ -80,7 +88,7 @@ Version: 0.3.5
 Date: 03.02.2024
   Adds:
     - Ajout de la méthode RitnSurface:delete() pour gérer la suppression d'une surface 
-    dans global.core.surfaces
+      dans global.core.surfaces
   Changes:
     - Prise en charge de l'exception en parametre lors de la création de la surface -> RitnSurface:new(exception).
     - Meilleur gestion de l'attribut exception pour la classe RitnSurface.

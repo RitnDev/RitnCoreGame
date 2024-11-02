@@ -57,7 +57,7 @@ end
 
 -- Génère une surface type "Spaceblock" si le mod est actif
 local function on_chunk_generated(e)
-    if game.active_mods["spaceblock"] then
+    if script.active_mods["spaceblock"] then
         spaceblock(e)
     end
 end

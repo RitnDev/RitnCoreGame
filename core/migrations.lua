@@ -55,6 +55,9 @@ local updates_mod = {
                 migration_0_3_9,
                 migration_0_3_10
             },
+        },
+        [6] = {
+            [0] = {}
         }
     }
 }

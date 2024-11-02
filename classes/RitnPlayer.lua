@@ -11,6 +11,7 @@ local seablock = require(ritnlib.defines.core.mods.seablock)
 ----------------------------------------------------------------
 RitnCorePlayer = ritnlib.classFactory.newclass(RitnLibPlayer, function(self, LuaPlayer)
     RitnLibPlayer.init(self, LuaPlayer)
+    self.object_name = "RitnCorePlayer"
     --------------------------------------------------
     self.data = remote.call('RitnCoreGame', 'get_players')
     self.data_player = remote.call("RitnCoreGame", "get_data", "player")
@@ -216,7 +217,7 @@ function RitnCorePlayer:createSurface()
     LuaSurface.set_tiles(tiles)
     
     --seablock options generated map
-    if game.active_mods["SeaBlock"] then  
+    if script.active_mods["SeaBlock"] then  
         seablock.startMap(LuaSurface)
     end
 
@@ -238,7 +239,7 @@ function RitnCorePlayer:createSurface()
     if remote.call('freeplay', 'get_disable_crashsite') then
         local surface = game.surfaces[origine]
         surface.daytime = 0.7
-        crashSite.create_crash_site(surface, {-5,-6}, nil, util.copy(global.crashed_debris_items), util.copy(global.crashed_ship_parts))
+        crashSite.create_crash_site(surface, {-5,-6}, nil, util.copy(storage.crashed_debris_items), util.copy(storage.crashed_ship_parts))
     end
 
     return self

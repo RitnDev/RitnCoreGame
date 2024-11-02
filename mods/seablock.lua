@@ -50,7 +50,7 @@ end
 -------------------------
 
 local function haveitem(player, itemname, crafted)
-  local unlock = global.unlocks[itemname]
+  local unlock = storage.unlocks[itemname]
   -- Special case for basic-circuit because it is part of starting equipment
   if unlock and (itemname ~= 'basic-circuit-board' or crafted) then
     for _,v in ipairs(unlock) do
