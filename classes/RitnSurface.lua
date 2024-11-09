@@ -183,15 +183,15 @@ function RitnCoreSurface:removePlayer(LuaPlayer)
 end
 
 
-function RitnCoreSurface:delete()
-    log('> '..self.object_name..':delete() -> '..self.name)
+function RitnCoreSurface.delete(surface_name)
+    log('> RitnCoreSurface.delete() -> '..surface_name)
     local core_data_surfaces = remote.call("RitnCoreGame", "get_surfaces")
 
-    if core_data_surfaces[self.name] == nil then return end
+    if core_data_surfaces[surface_name] == nil then return end
     
-    if not core_data_surfaces[self.name].exception then 
-        -- suppression de la force : storage.core.surfaces[surface_name] = nil
-        core_data_surfaces[self.name] = nil
+    if not core_data_surfaces[surface_name].exception then 
+        -- suppression de la surface
+        core_data_surfaces[surface_name] = nil
     end
 
     -- update storage.core.surfaces

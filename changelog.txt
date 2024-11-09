@@ -1,4 +1,14 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.6.1
+Date: 03.11.2024
+  Changes:
+    - Suppression d'une ligne inutile dans RitnCoreForce.delete().
+    - RitnCoreSurface.delete() devient une fonction et plus une methode de la classe.
+  Fixes:
+    - Suppression des données surfaces dans [storage.core.surfaces] est maintenant fonctionnelle !
+    - Utilisation de (LuaPrototypes) [prototypes.items] dans : seablock.lua (compatibilité avec Sea Block).
+    - Les forces "joueurs" ne sont désormais plus alliés.
+---------------------------------------------------------------------------------------------------
 Version: 0.6.0
 Date: 12.10.2024
   Changes:

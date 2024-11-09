@@ -84,11 +84,11 @@ function RitnCoreForce:create(force_name)
     -- la force est alliés a toutes les autres sauf "enemy" et "neutral"
     for _,force in pairs(game.forces) do
         if string.sub(force.name, 1, 5) ~= "enemy" and force.name ~= "neutral" then
-            LuaForce.set_friend(force.name, true)
+            --LuaForce.set_friend(force.name, true)
             game.forces["player"].set_friend(LuaForce.name, true)
         end
     end
- 
+
     -- on active les mêmes recettes que la force "player" 
     for r_name, recipe in pairs(game.forces["player"].recipes) do
         LuaForce.recipes[r_name].enabled = recipe.enabled
@@ -106,8 +106,6 @@ function RitnCoreForce.delete(force_name)
     local core_data_forces = remote.call("RitnCoreGame", "get_forces")
 
     if core_data_forces[force_name] == nil then return end
-    -- vidage de la liste des players de cette force
-    core_data_forces[force_name].players = {}
     
     if not core_data_forces[force_name].exception then 
         -- suppression de la force : storage.core.forces[force_name] = nil
@@ -292,7 +290,7 @@ function RitnCoreForce:removePlayer(LuaPlayer)
     if self.data[self.name].players[LuaPlayer.name] == nil then return self end
 
     self.data[self.name].players[LuaPlayer.name] = nil
- 
+
     self.data[self.name].force_used = table.busy(self.data[self.name].players)
 
     log('> player '.. LuaPlayer.name .. ' -> force : ' .. self.name .. ' (remove)')

@@ -18,7 +18,7 @@ end
 
 local function giveitems(entity)
   local landfill = 'landfill'
-  if settings.startup['sb-default-landfill'] and game.item_prototypes[settings.startup['sb-default-landfill'].value] then
+  if settings.startup['sb-default-landfill'] and prototypes.item[settings.startup['sb-default-landfill'].value] then
     landfill = settings.startup['sb-default-landfill'].value
   end
   local stuff = {
@@ -37,7 +37,7 @@ local function giveitems(entity)
     {"iron-stick", 96},
     {"pipe-to-ground", 2}
   }
-  if game.item_prototypes["wind-turbine-2"] then
+  if prototypes.item["wind-turbine-2"] then
     table.insert(stuff, {"wind-turbine-2", 120})
   else
     table.insert(stuff, {"solar-panel", 38})
