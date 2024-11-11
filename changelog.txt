@@ -1,13 +1,19 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.6.1
 Date: 03.11.2024
+  Adds:
+    - Ajout du module : surface
+    - Ajout du module : force
   Changes:
     - Suppression d'une ligne inutile dans RitnCoreForce.delete().
     - RitnCoreSurface.delete() devient une fonction et plus une methode de la classe.
+    - Utilisation de la fonction RitnCoreSurface.delete(surface_name) sur l'event : on_pre_surface_deleted.
+    - Si une surface de type "lobby" est créé alors on la cache à toute les forces.
+    - Si une force est créer on cache toutes les surfaces de type "lobby".
   Fixes:
     - Suppression des données surfaces dans [storage.core.surfaces] est maintenant fonctionnelle !
     - Utilisation de (LuaPrototypes) [prototypes.items] dans : seablock.lua (compatibilité avec Sea Block).
-    - Les forces "joueurs" ne sont désormais plus alliés.
+    - Les forces "joueurs" ne sont désormais plus alliés mais ennemies.
 ---------------------------------------------------------------------------------------------------
 Version: 0.6.0
 Date: 12.10.2024
