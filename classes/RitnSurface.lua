@@ -1,5 +1,6 @@
 -- RitnCoreSurface
 ----------------------------------------------------------------
+local string = require(ritnlib.defines.string)
 local flib = require(ritnlib.defines.core.functions)
 ----------------------------------------------------------------
 --- CLASSE DEFINES
@@ -15,6 +16,7 @@ RitnCoreSurface = ritnlib.classFactory.newclass(RitnLibSurface, function(self, L
     self.data_surface.name = self.name
     ----
     self.prefix_lobby = ritnlib.defines.core.names.prefix.lobby
+    self.isLobby = (string.startsWith(self.name, self.prefix_lobby))
     --------------------------------------------------
 end)
 

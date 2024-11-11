@@ -37,7 +37,6 @@ function RitnCoreEvent:generateLobby()
     local tv = {}
     local tab_tiles = {}
     local tx
-    local base_tile = 1
 
     -- seulement si la map commence par : "lobby~"
     if string.sub(self.surface.name,1,6) == self.prefix_lobby then 
@@ -45,7 +44,7 @@ function RitnCoreEvent:generateLobby()
         for x = self.area.left_top.x, self.area.right_bottom.x do 
             for y= self.area.left_top.y, self.area.right_bottom.y do
                 if((x>-2 and x<1) and (y>-2 and y<1))then
-                    tx = tx or {} table.insert(tx, {name="refined-concrete", position={x,y}} )
+                    tx = tx or {} table.insert(tx, {name="black-refined-concrete", position={x,y}} )
                 else
                     local tile="out-of-map"
                     table.insert(tab_tiles, { name = tile, position = {x, y}}) tv[x]=tv[x] or {} tv[x][y] = true

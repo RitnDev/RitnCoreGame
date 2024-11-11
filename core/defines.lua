@@ -31,6 +31,8 @@ local defines = {
         commands = mod_name .. ".modules.commands",
         ----
         player = mod_name .. ".modules.player",
+        force = mod_name .. ".modules.force",
+        surface = mod_name .. ".modules.surface",
     },
 
     functions = mod_name .. ".core.functions",
