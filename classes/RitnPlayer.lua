@@ -231,7 +231,7 @@ function RitnCorePlayer:createSurface()
     
     -- Teleportation du personnage sur la nouvelle surface
     local origine = self.data[self.index].origine
-    self:teleport({0,0}, origine) 
+    self:teleport({0,0}, origine, nil, nil, true)
     
     if script.level.level_name ~= "freeplay" then return self end
 
@@ -239,7 +239,7 @@ function RitnCorePlayer:createSurface()
     if remote.call('freeplay', 'get_disable_crashsite') then
         local surface = game.surfaces[origine]
         surface.daytime = 0.7
-        crashSite.create_crash_site(surface, {-5,-6}, nil, util.copy(storage.crashed_debris_items), util.copy(storage.crashed_ship_parts))
+        crashSite.create_crash_site(self.data[self.index], {-5,-6}, nil, util.copy(storage.crashed_debris_items), util.copy(storage.crashed_ship_parts))
     end
 
     return self
@@ -259,12 +259,15 @@ end
 
 
 
-function RitnCorePlayer:teleport(position, surface, optDecalage, pointOrigine) 
+function RitnCorePlayer:teleport(position, surface, optDecalage, pointOrigine, cancelDead) 
     local option = false
     local decalage = 0.0
     if optDecalage ~= nil then option = optDecalage end
     if option then decalage = self:positionTP(pointOrigine) end
 
+    if (cancelDead == true and type(self.player.ticks_to_respawn) == 'number') then 
+        self.player.ticks_to_respawn = nil
+    end
     if position.x and position.y then 
         self.player.teleport({position.x + decalage, position.y + decalage}, surface)
     else
@@ -278,7 +281,7 @@ end
 function RitnCorePlayer:teleportLobby()
     log('> '..self.object_name..':teleportLobby() -> ' .. self.lobby_name)
     self.force = game.forces[self.FORCE_DEFAULT_NAME]
-    self:teleport({0,0}, self.lobby_name)
+    self:teleport({0,0}, self.lobby_name, nil, nil, true)
 end
 
 

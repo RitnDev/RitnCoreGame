@@ -4,6 +4,7 @@ Date: 03.11.2024
   Adds:
     - Ajout du module : surface
     - Ajout du module : force
+    - Ajout d'un "object_name" sur les données players, surfaces et forces enregistrés dans storage.core.
   Changes:
     - Suppression d'une ligne inutile dans RitnCoreForce.delete().
     - RitnCoreSurface.delete() devient une fonction et plus une methode de la classe.
@@ -13,7 +14,7 @@ Date: 03.11.2024
   Fixes:
     - Suppression des données surfaces dans [storage.core.surfaces] est maintenant fonctionnelle !
     - Utilisation de (LuaPrototypes) [prototypes.items] dans : seablock.lua (compatibilité avec Sea Block).
-    - Les forces "joueurs" ne sont désormais plus alliés mais ennemies.
+    - Le site du crash prend en compte la bonne force.
 ---------------------------------------------------------------------------------------------------
 Version: 0.6.0
 Date: 12.10.2024

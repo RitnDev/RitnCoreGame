@@ -1,6 +1,7 @@
 -- MODULE : PLAYER
 ---------------------------------------------------------------------------------------------
-
+local strings = require(ritnlib.defines.string)
+---------------------------------------------------------------------------------------------
 
 
 local function on_player_changed_surface(e)
@@ -17,8 +18,19 @@ end
 local function on_player_changed_force(e)
     local rEvent = RitnCoreEvent(e)
     local rPlayer = RitnCoreEvent(e):getPlayer()
-    
-    rPlayer:changeForce()
+    -- Changement de force dans les data du core
+    rPlayer:changeForce()    
+
+    -- On récupère la force du joueur
+    local rForce = rPlayer:getForce()
+
+    -- On cache les surfaces sur lequel le joueur ne se trouve pas, sauf celle d'origine
+    local origine = strings.defaultValue(rPlayer:getOrigine(), rPlayer.name)
+    for _, surface in pairs(game.surfaces) do 
+        if surface.name ~= rPlayer.surface.name or surface.name ~= origine then 
+            rForce:setHiddenSurface(surface)
+        end
+    end
     
     log('on_player_changed_force')
 end

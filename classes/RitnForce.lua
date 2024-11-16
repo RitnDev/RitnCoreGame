@@ -84,7 +84,7 @@ function RitnCoreForce:create(force_name)
     -- la force est alliés a toutes les autres sauf "enemy" et "neutral"
     for _,force in pairs(game.forces) do
         if string.sub(force.name, 1, 5) ~= "enemy" and force.name ~= "neutral" then
-            --LuaForce.set_friend(force.name, true)
+            LuaForce.set_friend(force.name, true)
             game.forces["player"].set_friend(LuaForce.name, true)
         end
     end
