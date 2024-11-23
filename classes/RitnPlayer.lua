@@ -96,6 +96,14 @@ function RitnCorePlayer:online()
     return self
 end
 
+
+
+function RitnCorePlayer:isOnline()
+    if self.data[self.index] == nil then return false end 
+    return self.data[self.index].connected
+end
+
+
 function RitnCorePlayer:setOrigine(origine)
     if type(origine) ~= 'string' then return self end
     local surfaces = remote.call("RitnCoreGame", "get_surfaces")
