@@ -77,7 +77,7 @@ local function on_configuration_changed()
     })
     remote.call("RitnCoreGame", "init_data", "force_player", { name = ""})
     log('on_configuration_changed : RitnCoreGame -> finish !')
-    migration.version(0,6,1)
+    migration.version(0,6,5)
 end
 
 ---------------------------------------------------------------------------------------------
