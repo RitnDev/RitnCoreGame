@@ -288,7 +288,7 @@ end
 
 function RitnCorePlayer:teleportLobby()
     log('> '..self.object_name..':teleportLobby() -> ' .. self.lobby_name)
-    self.force = game.forces[self.FORCE_DEFAULT_NAME]
+    --self.force = game.forces[self.FORCE_DEFAULT_NAME] --> fait dans RitnBaseGame (module) lobby
     self:teleport({0,0}, self.lobby_name, nil, nil, true)
 end
 

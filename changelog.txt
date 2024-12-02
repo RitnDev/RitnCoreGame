@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.6.6
+Date: 01.12.2024
+  Changes:
+    - Suppression de "last_use" dans l'init_data de surfaces.
+    - (classe) RitnPlayer.teleportLobby() => self.force = game.forces[self.FORCE_DEFAULT_NAME] 
+      fait dans RitnBaseGame (module) lobby -> (doublon de code).
+---------------------------------------------------------------------------------------------------
 Version: 0.6.5
 Date: 30.11.2024
   Fixes:
