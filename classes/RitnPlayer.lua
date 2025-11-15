@@ -185,15 +185,20 @@ function RitnCorePlayer:createLobby(teleport)
         local tiles = {}
         
         -- creation de la surface lobby si elle n'existe pas déjà
-        if not LuaSurface then LuaSurface = game.create_surface(self.lobby_name) end
+        if not LuaSurface then LuaSurface = game.create_surface(self.lobby_name, {width = 2, height = 2}) end
+        
         -- préparation de la téléportation
+        LuaSurface.destroy_decoratives{area = self.area}
+        --delete all entities (not character)
+        for _,entity in pairs(LuaSurface.find_entities_filtered{type = "character", invert = true, area=self.area}) do 
+            entity.destroy{raise_destroy = true} 
+        end
+        
         for x=-1,1 do
             for y=-1,1 do
-                table.insert(tiles, {name = "lab-white", position = {x, y}})
+                LuaSurface.set_tiles({{name = "black-refined-concrete", position = {x, y}}})
             end
         end
-
-        LuaSurface.set_tiles(tiles)
 
         if goTeleport then 
             self:teleportLobby()

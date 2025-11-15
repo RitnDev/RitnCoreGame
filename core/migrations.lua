@@ -1,6 +1,6 @@
 -- MIGRATIONS
 ------------------------------------------------------------------------
-
+-- migration 0.6.1
 local function migration_0_6_1()
 
     -- update players on RitnCoreGame
@@ -24,8 +24,18 @@ local function migration_0_6_1()
     end
     remote.call("RitnCoreGame", "set_forces", forces)
 end
+------------------------------------------------------------------------
+-- migration 0.6.7 : création de la structures players / forces / surfaces, si le mod est chargé plutard sur une save
+-- à ajouter systématiquement dans les futures migrations
+local function migration_0_6_7()
+        if game.is_multiplayer() then remote.call("RitnCoreGame", "setMultiplayer") end
 
-
+    if RitnCoreForce.exists(ritnlib.defines.core.names.force_default) == false then 
+        local rEvent = RitnCoreEvent(e):createForceDefault()
+        local rForceDefault = RitnCoreForce(rEvent.force)
+        rForceDefault:new():setException(true)
+    end
+end
 ------------------------------------------------------------------------
 local updates_mod = {
     [0] = {
@@ -33,6 +43,9 @@ local updates_mod = {
             [0] = {},
             [1] = {
                 migration_0_6_1
+            },
+            [7] = {
+                migration_0_6_7
             }
         }
     }
