@@ -143,6 +143,7 @@ end
 ----------------------------------------------------------------
 
 function RitnCoreSurface:addPlayer(LuaPlayer)
+    if self.isPresent == false then return self end
     if string.sub(self.name, 1, string.len(self.prefix_lobby)) == self.prefix_lobby then return self end
     log('> '..self.object_name..':addPlayer() -> '..self.name)
     
@@ -163,6 +164,7 @@ end
 
 
 function RitnCoreSurface:removePlayer(LuaPlayer)
+    if self.isPresent == false then return self end
     if string.sub(self.name, 1, string.len(self.prefix_lobby)) == self.prefix_lobby then return self end
     log('> '..self.object_name..':removePlayer() -> '..self.name)
 

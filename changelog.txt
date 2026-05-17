@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.6.8
+Date: 17.05.2026
+  Fixes:
+    - Ajout: Vérification que la LuaSurface est bien présente lors de RitnCoreSurface:removePlayer() (on_player_changed_surface: surface_index == nil)
+---------------------------------------------------------------------------------------------------
 Version: 0.6.7
 Date: 15.11.2025
   Fixes:
