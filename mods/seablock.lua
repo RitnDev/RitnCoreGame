@@ -63,7 +63,7 @@ end
 -------------------------
 
 local function startMap(LuaSurface)
-    if game.players[LuaSurface.name] then 
+    if game.get_player(LuaSurface.name) then 
         local chest = LuaSurface.create_entity({name = "rock-chest", position = {0,0}, force = game.forces.neutral})
         giveitems(chest)
     end

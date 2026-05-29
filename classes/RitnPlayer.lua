@@ -181,7 +181,7 @@ function RitnCorePlayer:createLobby(teleport)
             log('> '..self.object_name..':createLobby(teleport) -> teleport = ' .. tostring(goTeleport))
         end
 
-        local LuaSurface = game.surfaces[self.lobby_name]
+        local LuaSurface = game.get_surface(self.lobby_name)
         local tiles = {}
         
         -- creation de la surface lobby si elle n'existe pas déjà
@@ -250,7 +250,7 @@ function RitnCorePlayer:createSurface()
 
     --active le site de crash s'il est actif
     if remote.call('freeplay', 'get_disable_crashsite') then
-        local surface = game.surfaces[origine]
+        local surface = game.get_surface(origine)
         surface.daytime = 0.7
         crashSite.create_crash_site(self.data[self.index], {-5,-6}, nil, util.copy(storage.crashed_debris_items), util.copy(storage.crashed_ship_parts))
     end

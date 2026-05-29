@@ -1,4 +1,10 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.6.9
+Date: 28.05.2026
+  Changes:
+    - change: game.players[player_index] by game.get_player(player_index)
+    - change: game.surfaces[player_index] by game.get_surface(surface_index)
+---------------------------------------------------------------------------------------------------
 Version: 0.6.8
 Date: 17.05.2026
   Fixes:
