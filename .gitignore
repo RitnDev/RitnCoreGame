@@ -1,5 +1,9 @@
 /.vscode
 
+
+# claude
+.claude
+
 # Compiled Lua sources
 luac.out
 
